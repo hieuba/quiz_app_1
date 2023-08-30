@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/models/title_question.dart';
 import 'package:quiz_app/screens/quiz_screens/quiz_screen_1.dart';
 import 'package:quiz_app/widgets/countinue_quiz.dart';
 import 'package:quiz_app/widgets/questions.dart';

@@ -109,7 +109,8 @@ class _HomePageState extends State<HomePage>
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(32), topRight: Radius.circular(32)),
               child: Container(
-                color: Colors.grey.shade100,
+                // color: Colors.grey.shade100,
+                color: Colors.amber,
                 child: TabBar(
                   indicatorColor: Colors.blue,
                   labelColor: Colors.black,
