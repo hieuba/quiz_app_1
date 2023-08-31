@@ -37,7 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   hexcolor: ^3.0.1
   flutter_native_splash: ^2.3.2
-  scroll_to_index: ^3.0.1
+
 
 flutter_native_splash:
   android: true

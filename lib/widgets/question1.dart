@@ -21,6 +21,7 @@ class _Question1State extends State<Question1> {
       padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
       child: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Question(

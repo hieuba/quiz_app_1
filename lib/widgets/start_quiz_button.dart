@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/constants/theme_data.dart';
 
 class StartQuizButton extends StatelessWidget {
   const StartQuizButton({
@@ -13,14 +14,7 @@ class StartQuizButton extends StatelessWidget {
         height: 50,
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xff0083ff),
-              Color(0xff87ceff),
-            ],
-          ),
+          gradient: startQuizGradient,
           borderRadius: BorderRadius.circular(5),
         ),
         child: const Center(

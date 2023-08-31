@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:quiz_app/constants/padding.dart';
+import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/widgets/question1.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,13 +31,8 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xff0083ff),
-              Color(0xff87ceff),
-            ],
-          ),
+        decoration: BoxDecoration(
+          gradient: appBarGradient,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,8 +105,7 @@ class _HomePageState extends State<HomePage>
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(32), topRight: Radius.circular(32)),
               child: Container(
-                // color: Colors.grey.shade100,
-                color: Colors.amber,
+                color: Colors.grey.shade100,
                 child: TabBar(
                   indicatorColor: Colors.blue,
                   labelColor: Colors.black,

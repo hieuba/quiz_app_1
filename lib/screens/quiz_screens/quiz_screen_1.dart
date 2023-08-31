@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/constants/padding.dart';
+import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/question_list.dart';
 import 'package:quiz_app/models/quiz_question.dart';
+import 'package:quiz_app/screens/result/result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _QuizScreenState createState() => _QuizScreenState();
 }
 
@@ -14,45 +17,46 @@ class _QuizScreenState extends State<QuizScreen> {
   int currentQuestionIndex = 0;
   int? selectedOptionIndex;
 
-  int correctAnswers = 0; // To keep track of correct answers
   Map<int, dynamic> objAnswers = generateMap(questions.length);
 
-  List<String> _selectedAnswer = [];
-
   final ScrollController _scrollController = ScrollController();
+
+  int calculateCorrectAnswers() {
+    int correctAnsewers = 0;
+
+    for (var i = 0; i < questions.length; i++) {
+      if (objAnswers.containsKey(i) &&
+          objAnswers[i] == questions[i].correctOptionIndex) {
+        correctAnsewers++;
+      }
+    }
+    return correctAnsewers;
+  }
+
+  void scrollToIndex(int index) {
+    if ((index >= 4 && index <= 6) || (index >= 3 && index <= 5)) {
+      double screenWidth = MediaQuery.of(context).size.width;
+      double itemWidth = screenWidth / 7;
+
+      double centerOffset =
+          itemWidth * index + (itemWidth / 2) - (screenWidth / 2);
+
+      _scrollController.animateTo(
+        centerOffset,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
 
   void _nextQuestion() {
     var newIndex = currentQuestionIndex + 1;
     scrollToIndex(newIndex);
-    print(newIndex);
     setState(() {
       currentQuestionIndex = newIndex;
     });
-    // if (currentQuestionIndex < questions.length - 1) {
-    //   setState(() {
-    //     currentQuestionIndex++;
-    //     selectedOptionIndex =
-    //         null; // Clear selected option for the next question
-    //   });
-    // }
   }
 
-  // Map<int, dynamic> result = generateMap(questions.length);
-  // array = [1,2,3,...n]
-  // value = {
-  //   1 : null,
-  //   2 : null ,
-  //   ....
-  //   n : null
-  // }
-
-  // var ob = {
-  //   0 : null,
-  //   1 : null,
-  //   2 : null
-  // }
-
-  // ob[currrentIndex] = null;
   void _previousQuestion() {
     var newIndex = currentQuestionIndex - 1 > 0 ? currentQuestionIndex - 1 : 0;
     scrollToIndex(newIndex);
@@ -61,86 +65,32 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-//_showResultScreen(1, 2)
-  void _showResultScreen(currentQuestIndex, answerIndex) {
-    // thay doi index bang index cua cau tra loi
-    // (currentQuestIndex , answerIndex)
-    // {[currentQuestIndex] : 1 , 2 : null}
-    print(currentQuestIndex);
-    print(answerIndex);
-    print({...objAnswers, currentQuestIndex: answerIndex});
+  void _choseQuestionIndex(currentQuestIndex, answerIndex) {
     setState(() {
       objAnswers = {...objAnswers, currentQuestIndex: answerIndex};
     });
-  }
-
-  void chooseAnswer(String answer) {
-    _selectedAnswer.add(answer);
-    if (_selectedAnswer.length == questions.length) {
-      setState(() {
-        // selectedAnswer = [];
-        // activeScreen = 'result-screen';
-      });
-    }
-  }
-
-  void scrollToIndex(int index) {
-    if (index >= 0 && index < questions.length) {
-      _scrollController.animateTo(
-        index * 56.0, // Assuming each item has a height of 56.0
-        duration: Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
-// void chooseAnswerByIndex(int _index) {
-//    ob = {
-//     1 : null ,
-//     2 : null,
-//     ... ,
-//     n : null
-//    }=>
-//    ob = {
-//     1 : _index ,
-//     2 : null,
-//     ... ,
-//     n : null
-//    }
-//    ob[currentQuestionIndex] = _index;
-//   }
-  @override
-  void initState() {
-    // TODO: implement initState
-    print(objAnswers);
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     QuestionModel currentQuestion = questions[currentQuestionIndex];
 
-    var width = MediaQuery.of(context).size.width;
     return Scaffold(
+      // layout
       body: Container(
-        // height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xff0083ff),
-              Color(0xff87ceff),
-            ],
-          ),
+        decoration: BoxDecoration(
+          gradient: appBarGradient,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
+            // tabbar
             Padding(
               padding: kVPadding,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -149,24 +99,32 @@ class _QuizScreenState extends State<QuizScreen> {
                     child: Image.asset('assets/images/back.png'),
                   ),
                   Text(
-                    'Let\'s test your knowledge',
+                    'Question 1.1 QUIZ',
                     style: TextStyle(
                         fontSize: kTitleFontSize,
                         color: Colors.white,
                         fontWeight: FontWeight.bold),
                   ),
                   Container(
-                    width: 20,
-                    height: 10,
-                    color: Colors.white,
+                    width: 72,
+                    height: 24,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset('assets/images/12.png'),
+                        const Text('15:00'),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
+            // body
             Expanded(
-                child: Container(
-              // color: Colors.amber,
-
               child: ClipRRect(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(25),
@@ -174,165 +132,320 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
                 child: Column(
                   children: [
+                    // questions index and questions list
                     Expanded(
                       child: Container(
-                        padding: kHPadding,
-                        width: double.infinity,
-                        color: Colors.red.shade100,
+                        color: whiteColor,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              color: Colors.amber,
-                              height: 100,
-                              child: ListView.builder(
-                                controller: _scrollController,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: questions.length,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      scrollToIndex(index);
-                                      setState(() {
-                                        currentQuestionIndex = index;
-                                      });
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.only(right: 14),
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color:
-                                            questions[index] == currentQuestion
-                                                ? Colors.blue.shade300
-                                                : Colors.grey,
-                                      ),
-                                      height: 50,
-                                      width: width / 10,
-                                      child: Center(
-                                        child: Text(
-                                          '${index + 1}',
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
+                            Padding(
+                              padding: kVPadding,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.blue,
+                                ),
+                                height: 4,
+                                width: 48,
                               ),
                             ),
-                            Column(
-                              children: [
-                                Text(
-                                  currentQuestion.questionText,
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Column(
-                                  children: List.generate(
-                                      currentQuestion.options.length, (index) {
-                                    bool isActiveAnswer =
-                                        objAnswers[currentQuestionIndex] ==
-                                            index;
-
-                                    // print()
-                                    String optionLetter = String.fromCharCode(
-                                        'A'.codeUnitAt(0) + index);
-                                    return ListTile(
-                                      title:
-                                          Text(currentQuestion.options[index]),
-                                      onTap: () {
-                                        _showResultScreen(
-                                            currentQuestionIndex, index);
-                                        // setState(() {
-                                        //   selectedOptionIndex = index;
-                                        // });
+                            // index questions
+                            Container(
+                              // margin: EdgeInsets.symmetric(horizontal: 20),
+                              color: whiteColor,
+                              height: 100,
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    // flex: 3,
+                                    child: ListView.builder(
+                                      controller: _scrollController,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: questions.length,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            scrollToIndex(index);
+                                            setState(() {
+                                              currentQuestionIndex = index;
+                                            });
+                                          },
+                                          child: Container(
+                                            // margin: const EdgeInsets.only(
+                                            //     right: 14),
+                                            decoration: BoxDecoration(
+                                              gradient: questions[index] ==
+                                                      currentQuestion
+                                                  ? indexGradient
+                                                  : null,
+                                              shape: BoxShape.circle,
+                                              color: grayColor,
+                                            ),
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                7,
+                                            child: Center(
+                                              child: Text(
+                                                '${index + 1}',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: whiteColor),
+                                              ),
+                                            ),
+                                          ),
+                                        );
                                       },
-                                      leading: Container(
-                                        width: 30,
-                                        height: 30,
-                                        alignment: Alignment.center,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: isActiveAnswer
-                                              ? Colors.blue
-                                              : Colors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 2,
+                                    child: ListView.builder(
+                                      controller: _scrollController,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: questions.length,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            scrollToIndex(index);
+                                            setState(() {
+                                              currentQuestionIndex = index;
+                                            });
+                                          },
+                                          child: Container(
+                                            // margin: const EdgeInsets.only(
+                                            //     right: 14),
+
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                7,
+                                            color: questions[index] ==
+                                                    currentQuestion
+                                                ? Colors.blue
+                                                : grayColor,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // questions
+                            Padding(
+                              padding: kHPadding,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 27.0),
+                                    child: Text(
+                                      currentQuestion.questionText,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  Column(
+                                    children: List.generate(
+                                        currentQuestion.options.length,
+                                        (index) {
+                                      bool isActiveAnswer =
+                                          objAnswers[currentQuestionIndex] ==
+                                              index;
+
+                                      String optionLetter = String.fromCharCode(
+                                          'A'.codeUnitAt(0) + index);
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 16),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            _choseQuestionIndex(
+                                                currentQuestionIndex, index);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                width: 40,
+                                                height: 40,
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  gradient: isActiveAnswer
+                                                      ? indexGradient
+                                                      : null,
+                                                  shape: BoxShape.circle,
+                                                  color: grayColor,
+                                                ),
+                                                child: Text(
+                                                  optionLetter,
+                                                  style: TextStyle(
+                                                    color: whiteColor,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Text(
+                                                  currentQuestion
+                                                      .options[index],
+                                                  style: TextStyle(
+                                                    color: isActiveAnswer
+                                                        ? Colors.blue
+                                                        : Colors.black,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                        child: Text(
-                                          optionLetter,
-                                          style: const TextStyle(
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                ),
-                                // Spacer(),
-                              ],
+                                      );
+                                    }),
+                                  ),
+                                  // Spacer(),
+                                ],
+                              ),
                             ),
                           ],
                         ),
                       ),
                     ),
+                    // buttons
                     Container(
-                      color: Colors.amber,
+                      padding: const EdgeInsets.only(bottom: 30),
+                      color: whiteColor,
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                          // prev
                           GestureDetector(
                             onTap: _previousQuestion,
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.blue,
-                              ),
-                              child: const Icon(
-                                Icons.arrow_back,
-                                color: Colors.white,
-                              ),
-                            ),
+                            child: currentQuestionIndex != 0
+                                ? Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      gradient: indexGradient,
+                                      shape: BoxShape.circle,
+                                      color: const Color(0xffd4d4d4),
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_back_ios,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const SizedBox(),
                           ),
+                          // submit
+
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text('Kết thúc'),
+                                    content: const Text(
+                                        'Bạn có muốn kết thúc câu hỏi?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ResutlScreen(
+                                                correctAnswers:
+                                                    calculateCorrectAnswers(),
+                                                totalQuestions:
+                                                    questions.length,
+                                                questions: questions,
+                                                userAnswers: objAnswers,
+                                              ),
+                                            ),
+                                            (route) => false,
+                                          );
+                                        },
+                                        child: const Text(
+                                          'Yes',
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text(
+                                          'No',
+                                          style: TextStyle(color: Colors.blue),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
                             child: Container(
                               width: 195,
                               height: 50,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(color: Colors.blue)),
-                              child: const Center(
-                                child: Text('Submit Quiz'),
+                              child: Center(
+                                child: GradientText(
+                                    text: 'Submit Quiz',
+                                    gradient: textGradient,
+                                    textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    )),
                               ),
                             ),
                           ),
+                          // next
                           GestureDetector(
-                            onTap: objAnswers[currentQuestionIndex] != null
+                            onTap: objAnswers[currentQuestionIndex] != null &&
+                                    !(currentQuestionIndex ==
+                                        questions.length - 1)
                                 ? _nextQuestion
                                 : null,
-                            child: Container(
-                              height: 50,
-                              width: 50,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.blue,
-                              ),
-                              child: const Icon(
-                                Icons.arrow_forward,
-                                color: Colors.white,
-                              ),
-                            ),
+                            child: currentQuestionIndex != questions.length - 1
+                                ? Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      gradient:
+                                          objAnswers[currentQuestionIndex] !=
+                                                      null &&
+                                                  !(currentQuestionIndex ==
+                                                      questions.length - 1)
+                                              ? indexGradient
+                                              : null,
+                                      shape: BoxShape.circle,
+                                      color: const Color(0xffd4d4d4),
+                                    ),
+                                    child: const Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                : const SizedBox(),
                           ),
                         ],
-                      ), // Add some spacing
+                      ),
                     )
                   ],
                 ),
               ),
-            ))
-            // const SizedBox(height: 16),
+            ),
           ],
         ),
       ),

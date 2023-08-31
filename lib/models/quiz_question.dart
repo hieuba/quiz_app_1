@@ -17,15 +17,9 @@ class QuestionModel {
   final List<String> options;
   final int correctOptionIndex;
 
-  QuestionModel(
-      {required this.questionText,
-      required this.options,
-      required this.correctOptionIndex});
-
-  getSuffleList() {
-    // tạo ra 1 giá trị giông answer sau đó shuffle
-    final shuffleList = [...options];
-    options.shuffle();
-    return shuffleList;
-  }
+  QuestionModel({
+    required this.questionText,
+    required this.options,
+    required this.correctOptionIndex,
+  });
 }
