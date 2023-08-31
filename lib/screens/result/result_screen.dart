@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/constants/padding.dart';
+import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/models/quiz_question.dart';
 
 class ResutlScreen extends StatelessWidget {
@@ -36,12 +37,27 @@ class ResutlScreen extends StatelessWidget {
             // tabbar
             Padding(
               padding: kPadding,
-              child: Text(
-                'Result Quiz',
-                style: TextStyle(
-                    fontSize: kTitleFontSize,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/');
+                    },
+                    child: Icon(
+                      Icons.home_outlined,
+                      color: whiteColor,
+                    ),
+                  ),
+                  Text(
+                    'Result Quiz',
+                    style: TextStyle(
+                        fontSize: kTitleFontSize,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
             // body
@@ -69,6 +85,8 @@ class ResutlScreen extends StatelessWidget {
                           'Correct Answers: $correctAnswers',
                           style: const TextStyle(fontSize: 20),
                         ),
+
+                        Text('Ban duoc 9 diem $correctAnswers voi thoi gian: '),
 
                         const SizedBox(height: 20),
                         for (int i = 0; i < questions.length; i++)

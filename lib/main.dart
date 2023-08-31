@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/screens/home_page.dart';
+import 'package:quiz_app/screens/result/result_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeClass.lightTheme,
       darkTheme: ThemeClass.darkTheme,
-      home: const HomePage(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+      },
     );
   }
 }

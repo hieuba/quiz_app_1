@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/widgets/question_and_minute.dart';
+import 'package:quiz_app/commons/question_and_minute.dart';
 
 class CountinueQuiz extends StatelessWidget {
   const CountinueQuiz({

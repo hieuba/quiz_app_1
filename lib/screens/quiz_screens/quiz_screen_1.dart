@@ -19,8 +19,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Map<int, dynamic> objAnswers = generateMap(questions.length);
 
+  // scrollController Index
   final ScrollController _scrollController = ScrollController();
-
+  // total correct answers
   int calculateCorrectAnswers() {
     int correctAnsewers = 0;
 
@@ -33,13 +34,14 @@ class _QuizScreenState extends State<QuizScreen> {
     return correctAnsewers;
   }
 
+  // scroll index
   void scrollToIndex(int index) {
     if ((index >= 4 && index <= 6) || (index >= 3 && index <= 5)) {
       double screenWidth = MediaQuery.of(context).size.width;
-      double itemWidth = screenWidth / 7;
+      double itemWidth = (screenWidth - 2 * 30) / 7;
 
       double centerOffset =
-          itemWidth * index + (itemWidth / 2) - (screenWidth / 2);
+          itemWidth * index + (itemWidth / 2) - ((screenWidth - 2 * 30) / 2);
 
       _scrollController.animateTo(
         centerOffset,
@@ -49,6 +51,7 @@ class _QuizScreenState extends State<QuizScreen> {
     }
   }
 
+  // next question button
   void _nextQuestion() {
     var newIndex = currentQuestionIndex + 1;
     scrollToIndex(newIndex);
@@ -57,6 +60,7 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  // previous question button
   void _previousQuestion() {
     var newIndex = currentQuestionIndex - 1 > 0 ? currentQuestionIndex - 1 : 0;
     scrollToIndex(newIndex);
@@ -65,6 +69,7 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  // choose question index
   void _choseQuestionIndex(currentQuestIndex, answerIndex) {
     setState(() {
       objAnswers = {...objAnswers, currentQuestIndex: answerIndex};
@@ -74,7 +79,7 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     QuestionModel currentQuestion = questions[currentQuestionIndex];
-
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       // layout
       body: Container(
@@ -94,7 +99,27 @@ class _QuizScreenState extends State<QuizScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text('Thong bao'),
+                            content: Text('Ban co muon thoat khong?'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed('/');
+                                  },
+                                  child: Text('Yes')),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('No')),
+                            ],
+                          );
+                        },
+                      );
                     },
                     child: Image.asset('assets/images/back.png'),
                   ),
@@ -115,7 +140,10 @@ class _QuizScreenState extends State<QuizScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/images/12.png'),
+                        Image.asset(
+                          'assets/images/12.png',
+                          color: blueColor,
+                        ),
                         const Text('15:00'),
                       ],
                     ),
@@ -151,7 +179,7 @@ class _QuizScreenState extends State<QuizScreen> {
                             ),
                             // index questions
                             Container(
-                              // margin: EdgeInsets.symmetric(horizontal: 20),
+                              padding: EdgeInsets.symmetric(horizontal: 30),
                               color: whiteColor,
                               height: 100,
                               child: Column(
@@ -171,26 +199,28 @@ class _QuizScreenState extends State<QuizScreen> {
                                             });
                                           },
                                           child: Container(
-                                            // margin: const EdgeInsets.only(
-                                            //     right: 14),
-                                            decoration: BoxDecoration(
-                                              gradient: questions[index] ==
-                                                      currentQuestion
-                                                  ? indexGradient
-                                                  : null,
-                                              shape: BoxShape.circle,
-                                              color: grayColor,
-                                            ),
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                7,
+                                            decoration: const BoxDecoration(),
+                                            width: (width - 2 * 30) / 7,
                                             child: Center(
-                                              child: Text(
-                                                '${index + 1}',
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: whiteColor),
+                                              child: Container(
+                                                width: width / 9.5,
+                                                decoration: BoxDecoration(
+                                                  gradient: questions[index] ==
+                                                          currentQuestion
+                                                      ? indexGradient
+                                                      : null,
+                                                  shape: BoxShape.circle,
+                                                  color: grayColor,
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    '${index + 1}',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: whiteColor),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -216,10 +246,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                             // margin: const EdgeInsets.only(
                                             //     right: 14),
 
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                7,
+                                            width: (width - 2 * 30) / 7,
                                             color: questions[index] ==
                                                     currentQuestion
                                                 ? Colors.blue

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
-import 'package:quiz_app/widgets/question1.dart';
+import 'package:quiz_app/commons/question1.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,9 +27,14 @@ class _HomePageState extends State<HomePage>
     _tabController.dispose();
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: const Drawer(
+        backgroundColor: Colors.amber,
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: appBarGradient,
@@ -38,6 +43,8 @@ class _HomePageState extends State<HomePage>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
+
+            // appbar
             Padding(
               padding: kPadding,
               child: Column(
@@ -46,7 +53,11 @@ class _HomePageState extends State<HomePage>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Image.asset('assets/images/menu.png'),
+                      GestureDetector(
+                          onTap: () {
+                            _scaffoldKey.currentState!.openDrawer();
+                          },
+                          child: Image.asset('assets/images/menu.png')),
                       CircleAvatar(
                         backgroundColor: Colors.grey.shade400,
                       ),

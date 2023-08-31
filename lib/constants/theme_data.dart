@@ -22,6 +22,7 @@ ThemeClass _themeClass = ThemeClass();
 
 var whiteColor = const Color(0xffffffff);
 var grayColor = const Color(0xffd4d4d4);
+var blueColor = const Color(0xff3550DC);
 
 var indexGradient = const LinearGradient(
   begin: Alignment.topLeft,
