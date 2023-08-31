@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-double kSpacing = 24.0;
+double kSpacing = 24.0.h;
 
-double kFontSize = 14.0;
+double kSmallFontSize = 14.0.sp;
 
-double kLargeFontSize = 16.0;
+double kLargeFontSize = 16.0.sp;
 
-double kTitleFontSize = 20.0;
+double kTitleFontSize = 18.0.sp;
 
-BorderRadius kBorderRadius = BorderRadius.circular(5.5);
+BorderRadius kBorderRadius = BorderRadius.circular(5.5.r);
 
 EdgeInsets kPadding = EdgeInsets.all(kSpacing);
 EdgeInsets kHPadding = EdgeInsets.symmetric(horizontal: kSpacing);

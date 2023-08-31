@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/question_list.dart';
@@ -89,7 +91,7 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const SizedBox(height: 30),
+            SizedBox(height: 28.h),
             // tabbar
             Padding(
               padding: kVPadding,
@@ -103,19 +105,19 @@ class _QuizScreenState extends State<QuizScreen> {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: Text('Thong bao'),
-                            content: Text('Ban co muon thoat khong?'),
+                            title: const Text('Thong bao'),
+                            content: const Text('Ban co muon thoat khong?'),
                             actions: [
                               TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pushNamed('/');
                                   },
-                                  child: Text('Yes')),
+                                  child: const Text('Yes')),
                               TextButton(
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Text('No')),
+                                  child: const Text('No')),
                             ],
                           );
                         },
@@ -123,19 +125,18 @@ class _QuizScreenState extends State<QuizScreen> {
                     },
                     child: Image.asset('assets/images/back.png'),
                   ),
-                  Text(
-                    'Question 1.1 QUIZ',
-                    style: TextStyle(
+                  Text('Question 1.1 QUIZ',
+                      style: GoogleFonts.ubuntu(
+                        color: whiteColor,
+                        fontWeight: FontWeight.w500,
                         fontSize: kTitleFontSize,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
+                      )),
                   Container(
-                    width: 72,
-                    height: 24,
+                    width: 72.w,
+                    height: 24.h,
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
+                      color: whiteColor,
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -154,9 +155,9 @@ class _QuizScreenState extends State<QuizScreen> {
             // body
             Expanded(
               child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(25.r),
+                  topRight: Radius.circular(25.r),
                 ),
                 child: Column(
                   children: [
@@ -167,26 +168,27 @@ class _QuizScreenState extends State<QuizScreen> {
                         child: Column(
                           children: [
                             Padding(
-                              padding: kVPadding,
+                              padding: EdgeInsets.only(top: 16.h),
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.blue,
                                 ),
-                                height: 4,
-                                width: 48,
+                                height: 4.h,
+                                width: 48.w,
                               ),
                             ),
                             // index questions
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 30),
+                              padding: EdgeInsets.symmetric(horizontal: 30.w),
                               color: whiteColor,
-                              height: 100,
+                              height: 75.h,
                               child: Column(
                                 children: [
                                   Expanded(
-                                    // flex: 3,
                                     child: ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       controller: _scrollController,
                                       scrollDirection: Axis.horizontal,
                                       itemCount: questions.length,
@@ -198,12 +200,12 @@ class _QuizScreenState extends State<QuizScreen> {
                                               currentQuestionIndex = index;
                                             });
                                           },
-                                          child: Container(
-                                            decoration: const BoxDecoration(),
+                                          child: SizedBox(
                                             width: (width - 2 * 30) / 7,
                                             child: Center(
                                               child: Container(
-                                                width: width / 9.5,
+                                                margin: EdgeInsets.all(7.w),
+                                                width: width / 7,
                                                 decoration: BoxDecoration(
                                                   gradient: questions[index] ==
                                                           currentQuestion
@@ -229,7 +231,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: 2,
+                                    height: 2.h,
                                     child: ListView.builder(
                                       controller: _scrollController,
                                       scrollDirection: Axis.horizontal,
@@ -243,9 +245,6 @@ class _QuizScreenState extends State<QuizScreen> {
                                             });
                                           },
                                           child: Container(
-                                            // margin: const EdgeInsets.only(
-                                            //     right: 14),
-
                                             width: (width - 2 * 30) / 7,
                                             color: questions[index] ==
                                                     currentQuestion
@@ -256,26 +255,27 @@ class _QuizScreenState extends State<QuizScreen> {
                                       },
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 10,
+                                  SizedBox(
+                                    height: 10.h,
                                   ),
                                 ],
                               ),
                             ),
                             // questions
                             Padding(
-                              padding: kHPadding,
+                              padding: EdgeInsets.only(
+                                  top: 8.h, left: kSpacing, right: kSpacing),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.only(bottom: 27.0),
+                                    padding: EdgeInsets.only(bottom: 18.0.h),
                                     child: Text(
                                       currentQuestion.questionText,
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500),
+                                      style: GoogleFonts.ubuntu(
+                                          fontSize: kLargeFontSize,
+                                          fontWeight: FontWeight.w500,
+                                          color: blackColor),
                                     ),
                                   ),
                                   Column(
@@ -289,8 +289,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                       String optionLetter = String.fromCharCode(
                                           'A'.codeUnitAt(0) + index);
                                       return Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 16),
+                                        padding: EdgeInsets.only(bottom: 16.h),
                                         child: GestureDetector(
                                           onTap: () {
                                             _choseQuestionIndex(
@@ -299,8 +298,8 @@ class _QuizScreenState extends State<QuizScreen> {
                                           child: Row(
                                             children: [
                                               Container(
-                                                width: 40,
-                                                height: 40,
+                                                width: 40.w,
+                                                height: 40.h,
                                                 alignment: Alignment.center,
                                                 decoration: BoxDecoration(
                                                   gradient: isActiveAnswer
@@ -311,20 +310,22 @@ class _QuizScreenState extends State<QuizScreen> {
                                                 ),
                                                 child: Text(
                                                   optionLetter,
-                                                  style: TextStyle(
+                                                  style: GoogleFonts.ubuntu(
                                                     color: whiteColor,
-                                                    fontSize: 18,
+                                                    fontSize: kTitleFontSize,
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0),
+                                                padding: EdgeInsets.only(
+                                                    left: 8.0.w),
                                                 child: Text(
                                                   currentQuestion
                                                       .options[index],
-                                                  style: TextStyle(
+                                                  style: GoogleFonts.ubuntu(
+                                                    fontSize: kSmallFontSize,
+                                                    fontWeight: FontWeight.w400,
                                                     color: isActiveAnswer
                                                         ? Colors.blue
                                                         : Colors.black,
@@ -347,7 +348,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     ),
                     // buttons
                     Container(
-                      padding: const EdgeInsets.only(bottom: 30),
+                      padding: EdgeInsets.only(bottom: 30.h),
                       color: whiteColor,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -357,17 +358,15 @@ class _QuizScreenState extends State<QuizScreen> {
                             onTap: _previousQuestion,
                             child: currentQuestionIndex != 0
                                 ? Container(
-                                    height: 50,
-                                    width: 50,
+                                    height: 50.h,
+                                    width: 50.w,
                                     decoration: BoxDecoration(
                                       gradient: indexGradient,
                                       shape: BoxShape.circle,
                                       color: const Color(0xffd4d4d4),
                                     ),
-                                    child: const Icon(
-                                      Icons.arrow_back_ios,
-                                      color: Colors.white,
-                                    ),
+                                    child: Icon(Icons.arrow_back_ios_new,
+                                        color: whiteColor),
                                   )
                                 : const SizedBox(),
                           ),
@@ -421,8 +420,8 @@ class _QuizScreenState extends State<QuizScreen> {
                               );
                             },
                             child: Container(
-                              width: 195,
-                              height: 50,
+                              width: 195.w,
+                              height: 50.h,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(color: Colors.blue)),
@@ -430,8 +429,8 @@ class _QuizScreenState extends State<QuizScreen> {
                                 child: GradientText(
                                     text: 'Submit Quiz',
                                     gradient: textGradient,
-                                    textStyle: const TextStyle(
-                                      fontSize: 16,
+                                    textStyle: GoogleFonts.ubuntu(
+                                      fontSize: kLargeFontSize,
                                       fontWeight: FontWeight.w500,
                                     )),
                               ),
@@ -446,8 +445,8 @@ class _QuizScreenState extends State<QuizScreen> {
                                 : null,
                             child: currentQuestionIndex != questions.length - 1
                                 ? Container(
-                                    height: 50,
-                                    width: 50,
+                                    height: 50.h,
+                                    width: 50.w,
                                     decoration: BoxDecoration(
                                       gradient:
                                           objAnswers[currentQuestionIndex] !=
@@ -457,11 +456,11 @@ class _QuizScreenState extends State<QuizScreen> {
                                               ? indexGradient
                                               : null,
                                       shape: BoxShape.circle,
-                                      color: const Color(0xffd4d4d4),
+                                      color: grayColor,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.arrow_forward_ios,
-                                      color: Colors.white,
+                                      color: whiteColor,
                                     ),
                                   )
                                 : const SizedBox(),

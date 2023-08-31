@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/screens/home_page.dart';
 import 'package:quiz_app/screens/result/result_screen.dart';
@@ -12,13 +13,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeClass.lightTheme,
-      darkTheme: ThemeClass.darkTheme,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeClass.lightTheme,
+          darkTheme: ThemeClass.darkTheme,
+          initialRoute: '/',
+          routes: {
+            '/': (context) => const HomePage(),
+          },
+        );
       },
     );
   }

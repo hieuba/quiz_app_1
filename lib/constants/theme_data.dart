@@ -23,15 +23,16 @@ ThemeClass _themeClass = ThemeClass();
 var whiteColor = const Color(0xffffffff);
 var grayColor = const Color(0xffd4d4d4);
 var blueColor = const Color(0xff3550DC);
+var blackColor = const Color(0xff333333);
 
 var indexGradient = const LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  stops: [0.0, 1.0],
   colors: [
     Color(0xFF3550DC),
     Color(0xFF27E9F7),
   ],
+  stops: [0, 2],
 );
 
 var appBarGradient = const LinearGradient(
@@ -55,7 +56,7 @@ var startQuizGradient = const LinearGradient(
 var textGradient = const LinearGradient(
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
-  stops: [0.0, 1.5],
+  stops: [0.5, 1],
   colors: [
     Color(0xFF3550DC),
     Color(0xFF27E9F7),

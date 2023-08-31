@@ -66,7 +66,8 @@ class _HomePageState extends State<HomePage>
                   const SizedBox(height: 10),
                   Text(
                     'Hello, friend',
-                    style: TextStyle(fontSize: kFontSize, color: Colors.white),
+                    style: TextStyle(
+                        fontSize: kSmallFontSize, color: Colors.white),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -101,7 +102,7 @@ class _HomePageState extends State<HomePage>
                           ),
                         ),
                         hintStyle: TextStyle(
-                          fontSize: kFontSize,
+                          fontSize: kSmallFontSize,
                           fontWeight: FontWeight.w400,
                           color: const Color(0xffBABABA),
                         ),
