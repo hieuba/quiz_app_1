@@ -6,6 +6,8 @@ import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/question_list.dart';
 import 'package:quiz_app/models/quiz_question.dart';
 import 'package:quiz_app/screens/result/result_screen.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -17,7 +19,12 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   int currentQuestionIndex = 0;
-  int? selectedOptionIndex;
+
+  late int _totalTime;
+  final int _seconds = 300;
+
+  final CountdownController _countdownController =
+      CountdownController(autoStart: true);
 
   Map<int, dynamic> objAnswers = generateMap(questions.length);
 
@@ -123,14 +130,9 @@ class _QuizScreenState extends State<QuizScreen> {
                         },
                       );
                     },
-                    child: Image.asset('assets/images/back.png'),
+                    child: Image.asset('assets/icons/back.png'),
                   ),
-                  Text('Question 1.1 QUIZ',
-                      style: GoogleFonts.ubuntu(
-                        color: whiteColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: kTitleFontSize,
-                      )),
+                  Text('Question 1.1 QUIZ', style: titleStyte),
                   Container(
                     width: 72.w,
                     height: 24.h,
@@ -142,10 +144,40 @@ class _QuizScreenState extends State<QuizScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/images/12.png',
+                          'assets/icons/timer.png',
                           color: blueColor,
                         ),
-                        const Text('15:00'),
+                        Countdown(
+                          controller: _countdownController,
+                          seconds: _seconds,
+                          build: (_, double time) {
+                            _totalTime = _seconds - time.toInt();
+                            int minutes = (time / 60).floor();
+                            int seconds = (time % 60).floor();
+                            return Text(
+                              '$minutes:${seconds.toString().padLeft(2, '0')}',
+                              style: GoogleFonts.ubuntu(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.blue,
+                              ),
+                            );
+                          },
+                          interval: const Duration(milliseconds: 1000),
+                          onFinished: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return ResutlScreen(
+                                  totalTime: _totalTime,
+                                  totalQuestions: questions.length,
+                                  correctAnswers: calculateCorrectAnswers(),
+                                  questions: questions,
+                                  userAnswers: objAnswers,
+                                );
+                              },
+                            ));
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -368,7 +400,10 @@ class _QuizScreenState extends State<QuizScreen> {
                                     child: Icon(Icons.arrow_back_ios_new,
                                         color: whiteColor),
                                   )
-                                : const SizedBox(),
+                                : SizedBox(
+                                    height: 50.h,
+                                    width: 50.w,
+                                  ),
                           ),
                           // submit
 
@@ -389,6 +424,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   ResutlScreen(
+                                                totalTime: _totalTime,
                                                 correctAnswers:
                                                     calculateCorrectAnswers(),
                                                 totalQuestions:
@@ -463,7 +499,10 @@ class _QuizScreenState extends State<QuizScreen> {
                                       color: whiteColor,
                                     ),
                                   )
-                                : const SizedBox(),
+                                : SizedBox(
+                                    height: 50.h,
+                                    width: 50.w,
+                                  ),
                           ),
                         ],
                       ),
