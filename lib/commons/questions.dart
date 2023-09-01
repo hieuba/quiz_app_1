@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/commons/question_and_minute.dart';
+import 'package:quiz_app/constants/theme_data.dart';
 
 class Question extends StatelessWidget {
   const Question({
@@ -17,42 +20,42 @@ class Question extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 100,
+        height: 100.h,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.blue),
-          borderRadius: BorderRadius.circular(5),
+          color: whiteColor,
+          borderRadius: kBorderRadius,
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: EdgeInsets.symmetric(vertical: 12.h),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 margin: kHPadding,
-                width: 72,
-                height: 72,
-                decoration: const BoxDecoration(color: Color(0xffc4c4c4)),
+                width: 72.w,
+                height: 72.h,
+                decoration: BoxDecoration(color: grayColor),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.h),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    text,
-                    style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.blue),
+                  GradientText(
+                    text: text,
+                    gradient: textGradient,
+                    textStyle: GoogleFonts.ubuntu(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   const QuestionAndMinute(
-                    image: 'assets/images/44.png',
+                    image: 'assets/icons/number_question.png',
                     text: '10 Questions',
                   ),
                   const QuestionAndMinute(
-                    image: 'assets/images/12.png',
+                    image: 'assets/icons/timer.png',
                     text: '10 mins',
                   ),
                 ],

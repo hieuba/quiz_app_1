@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/models/quiz_question.dart';
@@ -10,10 +12,12 @@ class ResutlScreen extends StatelessWidget {
     required this.correctAnswers,
     required this.questions,
     required this.userAnswers,
+    required this.totalTime,
   });
 
   final int totalQuestions;
   final int correctAnswers;
+  final int totalTime;
 
   final List<QuestionModel> questions;
   final Map<int, dynamic> userAnswers;
@@ -23,13 +27,8 @@ class ResutlScreen extends StatelessWidget {
     return Scaffold(
       // layout
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xff0083ff),
-              Color(0xff87ceff),
-            ],
-          ),
+        decoration: BoxDecoration(
+          gradient: appBarGradient,
         ),
         child: Column(
           children: [
@@ -51,11 +50,8 @@ class ResutlScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Result Quiz',
-                    style: TextStyle(
-                        fontSize: kTitleFontSize,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                    'Kết quả',
+                    style: titleStyte,
                   ),
                 ],
               ),
@@ -71,59 +67,86 @@ class ResutlScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   width: double.infinity,
                   color: Colors.white,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // questions index and questions list
-                        Text(
-                          'Total Questions: $totalQuestions',
-                          style: const TextStyle(fontSize: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            gradient: appBarGradient,
+                            borderRadius: kBorderRadius),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            SizedboxInfo(
+                                image: 'assets/icons/t.png',
+                                text: formatTime(totalTime)),
+                            SizedboxInfo(
+                              text: '$totalQuestions',
+                              image: 'assets/icons/total.png',
+                            ),
+                            SizedboxInfo(
+                                image: 'assets/icons/v.png',
+                                text: '$correctAnswers'),
+                            SizedboxInfo(
+                                image: 'assets/icons/x.png',
+                                text: '${totalQuestions - correctAnswers}'),
+                            SizedboxInfo(
+                                image: 'assets/icons/info.png', text: '123')
+                          ],
                         ),
-                        const SizedBox(height: 20),
-                        Text(
-                          'Correct Answers: $correctAnswers',
-                          style: const TextStyle(fontSize: 20),
-                        ),
+                      ),
 
-                        Text('Ban duoc 9 diem $correctAnswers voi thoi gian: '),
-
-                        const SizedBox(height: 20),
-                        for (int i = 0; i < questions.length; i++)
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Question ${i + 1}: ${questions[i].questionText}',
-                                style: const TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Correct Answer: ${questions[i].options[questions[i].correctOptionIndex]}',
-                                style: const TextStyle(
-                                    fontSize: 16, color: Colors.blue),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Your Answer: ${userAnswers.containsKey(i) ? (userAnswers[i] != null ? questions[i].options[userAnswers[i]!] : 'Not answered') : 'Not answered'}',
-                                style: TextStyle(
-                                    fontSize: 16,
+                      Expanded(
+                          child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: List.generate(
+                            questions.length,
+                            (i) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Question ${i + 1}: ${questions[i].questionText}',
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                SizedBox(height: 8.h),
+                                Text(
+                                  'Correct Answer: ${questions[i].options[questions[i].correctOptionIndex]}',
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: blueColor,
+                                  ),
+                                ),
+                                SizedBox(height: 4.h),
+                                Text(
+                                  'Your Answer: ${userAnswers.containsKey(i) ? (userAnswers[i] != null ? questions[i].options[userAnswers[i]!] : 'Not answered') : 'Not answered'}',
+                                  style: GoogleFonts.ubuntu(
+                                    fontSize: 14.sp,
                                     color: (userAnswers[i] != null
                                                 ? questions[i]
                                                     .options[userAnswers[i]!]
                                                 : 'Not answered') ==
                                             questions[i].options[
                                                 questions[i].correctOptionIndex]
-                                        ? Colors.blue
-                                        : Colors.red),
-                              ),
-                              const SizedBox(height: 16),
-                            ],
+                                        ? blueColor
+                                        : errorColor,
+                                  ),
+                                ),
+                                Divider(
+                                  color: grayColor,
+                                ),
+                              ],
+                            ),
                           ),
-                        // buttons
-                      ],
-                    ),
+                        ),
+                      )),
+
+                      // buttons
+                    ],
                   ),
                 ),
               ),
@@ -134,3 +157,43 @@ class ResutlScreen extends StatelessWidget {
     );
   }
 }
+
+class SizedboxInfo extends StatelessWidget {
+  const SizedboxInfo({
+    super.key,
+    required this.image,
+    required this.text,
+  });
+
+  final String image;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      // color: Colors.black12,
+      height: 40.h,
+      child: Row(
+        children: [
+          SizedBox(height: 20.h, width: 20.w, child: Image.asset(image)),
+          Text(
+            text,
+            style: textStye,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+String formatTime(int seconds) {
+  int minutes = (seconds / 60).floor();
+  int remainingSeconds = seconds % 60;
+  return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
+}
+
+var textStye = GoogleFonts.ubuntu(
+  fontSize: 16.sp,
+  fontWeight: FontWeight.w500,
+  color: whiteColor,
+);

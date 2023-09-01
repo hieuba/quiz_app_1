@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/commons/question_and_minute.dart';
+import 'package:quiz_app/constants/padding.dart';
+import 'package:quiz_app/constants/theme_data.dart';
 
 class CountinueQuiz extends StatelessWidget {
   const CountinueQuiz({
@@ -8,55 +12,83 @@ class CountinueQuiz extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dismissible(
-      onDismissed: (direction) {},
-      key: const Key(''),
+    return SizedBox(
+      height: 112.h,
+      width: double.infinity,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 112,
-            width: 112,
-            decoration: const BoxDecoration(
-              color: Color(0xffc4c4c4),
+            height: 112.h,
+            width: 112.w,
+            decoration: BoxDecoration(
+              color: grayColor,
             ),
           ),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Text(
-                'Animation',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blue),
-              ),
-              const QuestionAndMinute(
-                image: 'assets/images/44.png',
-                text: '10 Questions',
-              ),
-              const QuestionAndMinute(
-                image: 'assets/images/12.png',
-                text: '10 mins',
-              ),
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                height: 32,
-                decoration: BoxDecoration(
-                  color: const Color(0xff333333),
-                  borderRadius: BorderRadius.circular(5),
+          SizedBox(width: 16.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        GradientText(
+                          text: 'Animation',
+                          gradient: textGradient,
+                          textStyle: GoogleFonts.ubuntu(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const QuestionAndMinute(
+                          image: 'assets/icons/number_question.png',
+                          text: '10 Questions',
+                        ),
+                        const QuestionAndMinute(
+                          image: 'assets/icons/timer.png',
+                          text: '10 mins',
+                        ),
+                        SizedBox(height: 16.h),
+                        // countinue Quiz
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: SizedBox(
+                        height: 18.h,
+                        width: 18.w,
+                        child: Image.asset('assets/icons/delete.png'),
+                      ),
+                    )
+                  ],
                 ),
-                child: const Center(
-                  child: Text(
-                    'Countinue Quiz',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  height: 32.h,
+                  decoration: BoxDecoration(
+                    color: blackColor,
+                    borderRadius: kBorderRadius,
                   ),
-                ),
-              )
-            ],
+                  child: Center(
+                    child: Text(
+                      'Countinue Quiz',
+                      style: GoogleFonts.ubuntu(
+                        color: whiteColor,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           )
         ],
       ),

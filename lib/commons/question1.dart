@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:quiz_app/screens/quiz_screens/quiz_screen_1.dart';
 import 'package:quiz_app/commons/countinue_quiz.dart';
 import 'package:quiz_app/commons/questions.dart';
@@ -17,7 +18,7 @@ class _Question1State extends State<Question1> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+      padding: EdgeInsets.only(top: 21.h, left: 24.w, right: 24.w),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,7 +31,7 @@ class _Question1State extends State<Question1> {
                   text: 'Question 1.1',
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => QuizScreen(),
+                      builder: (context) => const QuizScreen(),
                     ));
                   },
                 ),

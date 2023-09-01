@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
@@ -42,8 +44,6 @@ class _HomePageState extends State<HomePage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
-
             // appbar
             Padding(
               padding: kPadding,
@@ -57,72 +57,78 @@ class _HomePageState extends State<HomePage>
                           onTap: () {
                             _scaffoldKey.currentState!.openDrawer();
                           },
-                          child: Image.asset('assets/images/menu.png')),
+                          child: Image.asset('assets/icons/menu.png')),
                       CircleAvatar(
                         backgroundColor: Colors.grey.shade400,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
                   Text(
                     'Hello, friend',
-                    style: TextStyle(
-                        fontSize: kSmallFontSize, color: Colors.white),
+                    style: GoogleFonts.dmSans(
+                        fontSize: kSmallFontSize, color: whiteColor),
                   ),
                   const SizedBox(height: 8),
-                  Text(
-                    'Let\'s test your knowledge',
-                    style: TextStyle(
-                        fontSize: kTitleFontSize,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
+                  Text('Let\'s test your knowledge', style: titleStyte),
                   Container(
-                    height: 50,
+                    margin: EdgeInsets.only(top: 16.h),
+                    height: 40.h,
                     decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: whiteColor,
                         borderRadius: BorderRadius.circular(35)),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: Colors.blue.shade300,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(10.h),
+                          child: Image.asset('assets/icons/search.png'),
                         ),
-                        hintText: 'Search',
-                        enabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                        ),
-                        disabledBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.transparent),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              isDense: true,
+                              contentPadding: EdgeInsets.only(top: 5.h),
+                              hintText: 'Search',
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              disabledBorder: const OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                              hintStyle: GoogleFonts.nunito(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: grayColor,
+                              ),
+                            ),
                           ),
                         ),
-                        hintStyle: TextStyle(
-                          fontSize: kSmallFontSize,
-                          fontWeight: FontWeight.w400,
-                          color: const Color(0xffBABABA),
-                        ),
-                      ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
             ClipRRect(
               borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(32), topRight: Radius.circular(32)),
               child: Container(
                 color: Colors.grey.shade100,
                 child: TabBar(
+                  labelStyle: GoogleFonts.nunito(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
                   indicatorColor: Colors.blue,
-                  labelColor: Colors.black,
+                  labelColor: Colors.blue,
                   controller: _tabController,
-                  unselectedLabelColor: Colors.grey,
+                  unselectedLabelColor: tabbarColor,
                   tabs: const [
                     Tab(text: 'Question 1'),
                     Tab(text: 'Question 2'),
