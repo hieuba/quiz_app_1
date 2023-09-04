@@ -40,6 +40,9 @@ dependencies:
   google_fonts: ^5.1.0
   flutter_screenutil: ^5.9.0
   timer_count_down: ^2.2.2
+  flutter_bloc: ^8.1.3
+  bloc: ^8.1.2
+  page_transition: ^2.0.9
 
 
 flutter_native_splash:
@@ -78,6 +81,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/data/demo.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

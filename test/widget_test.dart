@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quiz_app/data/question_list.dart';
+import 'package:quiz_app/data/generate_map.dart';
 
 import 'package:quiz_app/main.dart';
 

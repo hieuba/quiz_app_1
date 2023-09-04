@@ -14,9 +14,8 @@ class ThemeClass {
 
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
-    colorScheme: const ColorScheme.dark().copyWith(
-      primary: _themeClass.darkPrimaryColor,
-    ),
+    colorScheme: const ColorScheme.dark()
+        .copyWith(primary: _themeClass.darkPrimaryColor),
   );
 }
 

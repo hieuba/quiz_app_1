@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
-import 'package:quiz_app/models/quiz_question.dart';
+import 'package:quiz_app/models/question_model.dart';
 
 class ResutlScreen extends StatelessWidget {
   const ResutlScreen({
@@ -108,9 +108,9 @@ class ResutlScreen extends StatelessWidget {
                                 Text(
                                   'Question ${i + 1}: ${questions[i].questionText}',
                                   style: GoogleFonts.ubuntu(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: blackColor),
                                 ),
                                 SizedBox(height: 8.h),
                                 Text(

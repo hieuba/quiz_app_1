@@ -1,13 +1,20 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:quiz_app/constants/padding.dart';
-import 'package:quiz_app/constants/theme_data.dart';
-import 'package:quiz_app/data/question_list.dart';
-import 'package:quiz_app/models/quiz_question.dart';
-import 'package:quiz_app/screens/result/result_screen.dart';
+import 'package:quiz_app/data/a1.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
+
+import 'package:quiz_app/constants/padding.dart';
+import 'package:quiz_app/constants/theme_data.dart';
+import 'package:quiz_app/data/generate_map.dart';
+import 'package:quiz_app/models/question_model.dart';
+import 'package:quiz_app/screens/result/result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -26,7 +33,75 @@ class _QuizScreenState extends State<QuizScreen> {
   final CountdownController _countdownController =
       CountdownController(autoStart: true);
 
-  Map<int, dynamic> objAnswers = generateMap(questions.length);
+  Map<int, dynamic> objAnswers = generateMap(0);
+
+  // Hàm để xáo trộn danh sách câu hỏi
+  List shuffleQuestions(List inputQuestions) {
+    var random = Random();
+    var questions = List.from(inputQuestions);
+    for (var i = questions.length - 1; i > 0; i--) {
+      var j = random.nextInt(i + 1);
+      var temp = questions[i];
+      questions[i] = questions[j];
+      questions[j] = temp;
+    }
+    return questions;
+  }
+
+  // Hàm đọc dữ liệu từ tệp JSON và nạp vào danh sách questions
+  /* void _loadQuestions() async {
+    try {
+      final file =
+          File('/Users/hieuba/Desktop/QUIZ/quiz_app/assets/data/demo.json');
+
+//       var exam1<> = {
+//         questions: file,
+//         title: 'Thi A1',
+//         time: 10000000,
+//         description?: '',
+//         category : 'moto',
+//         id : '1'
+//       };
+// var exam2<> = {
+//         questions: file,
+//         title: 'Thi A1',
+//         time: 10000000,
+//         description?: '',
+//          category : 'oto'
+//       };
+
+//       var exams  = [exam1, exam2, ...];
+
+// var examHonda = exams.
+
+      final jsonString = file.readAsStringSync();
+
+      final jsonData = jsonDecode(jsonString) as List;
+      print(jsonData);
+      // final jsonString = await rootBundle.loadString('assets/data/demo.json');
+
+      // final jsonData = jsonDecode(jsonString) as List;
+      // print(jsonData);
+
+      // Xáo trộn danh sách câu hỏi
+      final shuffledQuestions = shuffleQuestions(jsonData);
+
+      // Lấy 10 câu hỏi đầu tiên sau khi đã xáo trộn
+      final selectedQuestions = shuffledQuestions.take(10).toList();
+
+      questions = selectedQuestions.map((data) {
+        return QuestionModel(
+          questionText: data['questionText'],
+          options: List<String>.from(data['options']),
+          correctOptionIndex: data['correctOptionIndex'],
+        );
+      }).toList();
+      objAnswers = generateMap(questions.length);
+    } catch (e) {
+      // ignore: avoid_print
+      print('Đã xảy ra lỗi khi đọc tệp JSON: $e');
+    }
+  } */
 
   // scrollController Index
   final ScrollController _scrollController = ScrollController();
@@ -34,9 +109,9 @@ class _QuizScreenState extends State<QuizScreen> {
   int calculateCorrectAnswers() {
     int correctAnsewers = 0;
 
-    for (var i = 0; i < questions.length; i++) {
+    for (var i = 0; i < questionsA1.length; i++) {
       if (objAnswers.containsKey(i) &&
-          objAnswers[i] == questions[i].correctOptionIndex) {
+          objAnswers[i] == questionsA1[i].correctOptionIndex) {
         correctAnsewers++;
       }
     }
@@ -85,9 +160,21 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
+  // @override
+  // void initState() {
+  //   _loadQuestions();
+  //   super.initState();
+  // }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    QuestionModel currentQuestion = questions[currentQuestionIndex];
+    QuestionModel currentQuestion = questionsA1[currentQuestionIndex];
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       // layout
@@ -117,6 +204,7 @@ class _QuizScreenState extends State<QuizScreen> {
                             actions: [
                               TextButton(
                                   onPressed: () {
+                                    _countdownController.pause();
                                     Navigator.of(context).pushNamed('/');
                                   },
                                   child: const Text('Yes')),
@@ -141,7 +229,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Image.asset(
                           'assets/icons/timer.png',
@@ -159,7 +247,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               style: GoogleFonts.ubuntu(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
-                                color: Colors.blue,
+                                color: blueColor,
                               ),
                             );
                           },
@@ -169,9 +257,9 @@ class _QuizScreenState extends State<QuizScreen> {
                               builder: (context) {
                                 return ResutlScreen(
                                   totalTime: _totalTime,
-                                  totalQuestions: questions.length,
+                                  totalQuestions: questionsA1.length,
                                   correctAnswers: calculateCorrectAnswers(),
-                                  questions: questions,
+                                  questions: questionsA1,
                                   userAnswers: objAnswers,
                                 );
                               },
@@ -204,7 +292,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Colors.blue,
+                                  color: blueColor,
                                 ),
                                 height: 4.h,
                                 width: 48.w,
@@ -212,7 +300,8 @@ class _QuizScreenState extends State<QuizScreen> {
                             ),
                             // index questions
                             Container(
-                              padding: EdgeInsets.symmetric(horizontal: 30.w),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
                               color: whiteColor,
                               height: 75.h,
                               child: Column(
@@ -223,7 +312,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                           const NeverScrollableScrollPhysics(),
                                       controller: _scrollController,
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: questions.length,
+                                      itemCount: questionsA1.length,
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
                                           onTap: () {
@@ -236,13 +325,14 @@ class _QuizScreenState extends State<QuizScreen> {
                                             width: (width - 2 * 30) / 7,
                                             child: Center(
                                               child: Container(
-                                                margin: EdgeInsets.all(7.w),
+                                                margin: EdgeInsets.all(7),
                                                 width: width / 7,
                                                 decoration: BoxDecoration(
-                                                  gradient: questions[index] ==
-                                                          currentQuestion
-                                                      ? indexGradient
-                                                      : null,
+                                                  gradient:
+                                                      questionsA1[index] ==
+                                                              currentQuestion
+                                                          ? indexGradient
+                                                          : null,
                                                   shape: BoxShape.circle,
                                                   color: grayColor,
                                                 ),
@@ -267,7 +357,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                     child: ListView.builder(
                                       controller: _scrollController,
                                       scrollDirection: Axis.horizontal,
-                                      itemCount: questions.length,
+                                      itemCount: questionsA1.length,
                                       itemBuilder: (context, index) {
                                         return GestureDetector(
                                           onTap: () {
@@ -278,7 +368,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                           },
                                           child: Container(
                                             width: (width - 2 * 30) / 7,
-                                            color: questions[index] ==
+                                            color: questionsA1[index] ==
                                                     currentQuestion
                                                 ? Colors.blue
                                                 : grayColor,
@@ -349,18 +439,21 @@ class _QuizScreenState extends State<QuizScreen> {
                                                   ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: 8.0.w),
-                                                child: Text(
-                                                  currentQuestion
-                                                      .options[index],
-                                                  style: GoogleFonts.ubuntu(
-                                                    fontSize: kSmallFontSize,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: isActiveAnswer
-                                                        ? Colors.blue
-                                                        : Colors.black,
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 8.0.w),
+                                                  child: Text(
+                                                    currentQuestion
+                                                        .options[index],
+                                                    style: GoogleFonts.ubuntu(
+                                                      fontSize: kSmallFontSize,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      color: isActiveAnswer
+                                                          ? Colors.blue
+                                                          : Colors.black,
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -428,8 +521,8 @@ class _QuizScreenState extends State<QuizScreen> {
                                                 correctAnswers:
                                                     calculateCorrectAnswers(),
                                                 totalQuestions:
-                                                    questions.length,
-                                                questions: questions,
+                                                    questionsA1.length,
+                                                questions: questionsA1,
                                                 userAnswers: objAnswers,
                                               ),
                                             ),
@@ -476,10 +569,11 @@ class _QuizScreenState extends State<QuizScreen> {
                           GestureDetector(
                             onTap: objAnswers[currentQuestionIndex] != null &&
                                     !(currentQuestionIndex ==
-                                        questions.length - 1)
+                                        questionsA1.length - 1)
                                 ? _nextQuestion
                                 : null,
-                            child: currentQuestionIndex != questions.length - 1
+                            child: currentQuestionIndex !=
+                                    questionsA1.length - 1
                                 ? Container(
                                     height: 50.h,
                                     width: 50.w,
@@ -488,7 +582,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                           objAnswers[currentQuestionIndex] !=
                                                       null &&
                                                   !(currentQuestionIndex ==
-                                                      questions.length - 1)
+                                                      questionsA1.length - 1)
                                               ? indexGradient
                                               : null,
                                       shape: BoxShape.circle,
