@@ -7,13 +7,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:quiz_app/data/question_list.dart';
+import 'package:quiz_app/data/generate_map.dart';
 
 import 'package:quiz_app/main.dart';
 
-void main() {
-  print(generateMap(questions.length));
-}
+void main() {}
 
 Map<int, dynamic> generateMap(int n) {
   Map<int, dynamic> value = {};

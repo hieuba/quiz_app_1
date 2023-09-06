@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/screens/home_page.dart';
-import 'package:quiz_app/screens/result/result_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   runApp(const MyApp());
 }
 
@@ -22,10 +28,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeClass.lightTheme,
           darkTheme: ThemeClass.darkTheme,
-          initialRoute: '/',
-          routes: {
-            '/': (context) => const HomePage(),
-          },
+          home: const HomePage(),
         );
       },
     );

@@ -5,8 +5,8 @@ import 'package:quiz_app/commons/question_and_minute.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 
-class CountinueQuiz extends StatelessWidget {
-  const CountinueQuiz({
+class CountinueQuestion extends StatelessWidget {
+  const CountinueQuestion({
     super.key,
   });
 

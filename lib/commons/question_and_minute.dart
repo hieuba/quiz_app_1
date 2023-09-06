@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:quiz_app/constants/theme_data.dart';
 
 class QuestionAndMinute extends StatelessWidget {
   const QuestionAndMinute({
@@ -15,9 +18,14 @@ class QuestionAndMinute extends StatelessWidget {
     return Row(
       children: [
         Image.asset(image),
+        SizedBox(width: 5.w),
         Text(
           text,
-          style: const TextStyle(fontSize: 12, color: Colors.grey),
+          style: GoogleFonts.nunito(
+            color: tabbarColor,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w400,
+          ),
         )
       ],
     );
