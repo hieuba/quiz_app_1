@@ -62,6 +62,7 @@ final questionsA1 = [
         "Biển báo hiệu lệnh phải thi hành.",
         "Biển báo chỉ dẫn.",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/41.jpg',
       correctOptionIndex: 2),
   //7
   QuestionModel(
@@ -144,6 +145,7 @@ final questionsA1 = [
         "Biển 2.",
         "Cả hai biển.",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/105.jpg',
       correctOptionIndex: 0),
   //15 hịnh
   QuestionModel(
@@ -154,6 +156,7 @@ final questionsA1 = [
         "Biển 2.",
         "Biển 1 và Biển 2",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/113.jpg',
       correctOptionIndex: 2),
   //16 hinh
   QuestionModel(
@@ -163,6 +166,7 @@ final questionsA1 = [
         "Biển 2",
         "Biển 3",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/121.jpg',
       correctOptionIndex: 1),
   // 17 hinh
   QuestionModel(
@@ -173,6 +177,7 @@ final questionsA1 = [
         "Biển 2 và 3",
         "Cả 3 biển",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/129.jpg',
       correctOptionIndex: 1),
   //18 hinh
   QuestionModel(
@@ -183,6 +188,7 @@ final questionsA1 = [
         "Biển 2",
         "Biển 3",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/137.jpg',
       correctOptionIndex: 0),
   //19 hinh
   QuestionModel(
@@ -193,6 +199,7 @@ final questionsA1 = [
         "Biển 2",
         "Biển 3",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/145.jpg',
       correctOptionIndex: 1),
   //20 hinh
   QuestionModel(
@@ -203,6 +210,7 @@ final questionsA1 = [
         "Biển 3",
         "Biển 2 và 3.",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/153.jpg',
       correctOptionIndex: 3),
   //21 hinh
   QuestionModel(
@@ -214,6 +222,7 @@ final questionsA1 = [
         "Vạch 3.",
         "Cả 3 vạch",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/161.jpg',
       correctOptionIndex: 1),
   //22 hịnh
   QuestionModel(
@@ -222,6 +231,7 @@ final questionsA1 = [
         "Mô tô.",
         "Xe cứu thương.",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/169.jpg',
       correctOptionIndex: 1),
   // 23
   QuestionModel(
@@ -231,6 +241,7 @@ final questionsA1 = [
         "Đúng",
         "Không đúng",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/177.jpg',
       correctOptionIndex: 1),
   //24 hinh
   QuestionModel(
@@ -242,15 +253,17 @@ final questionsA1 = [
         "Hướng 1 và 3."
             "Hướng 2 và 3.",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/185.jpg',
       correctOptionIndex: 2),
   // 25 hinh
   QuestionModel(
       questionText:
-          "Các xe đi theo hướng mũi tên, xe nào vi phạm quy tắc giao thông ?",
+          "Các xe đi theo hướng mũi tên, xe nào vi phạm quy tắc giao thông?",
       options: [
         "Xe con, xe tải, xe khách.",
         "Xe tải, xe khách, xe mô tô.",
         "Xe khách, xe mô tô, xe con.",
       ],
+      imageUrl: 'https://hoclaixehcm.vn/image200/193.jpg',
       correctOptionIndex: 1),
 ];

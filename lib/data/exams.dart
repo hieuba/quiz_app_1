@@ -12,6 +12,7 @@ class ExamData {
       "questions": questionsA1,
       "title": "Bằng A1",
       "total_question": questionsA1.length,
+      "thumnail": 'assets/images/a1.png'
     },
     {
       "id": "2",
@@ -21,6 +22,7 @@ class ExamData {
       "questions": questionsA2,
       "title": "Bằng A2",
       "total_question": questionsA2.length,
+      "thumnail": 'assets/images/a2.png'
     },
   ];
 }

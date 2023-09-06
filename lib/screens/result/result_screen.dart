@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:quiz_app/commons/appbar_custom.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/models/question_model.dart';
+import 'package:quiz_app/screens/home_page.dart';
 
 class ResutlScreen extends StatelessWidget {
   const ResutlScreen({
@@ -24,134 +27,161 @@ class ResutlScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
+
     return Scaffold(
       // layout
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: appBarGradient,
-        ),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            // tabbar
-            Padding(
-              padding: kPadding,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
+      body: SafeArea(
+        top: false,
+        bottom: false,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: appBarGradient,
+          ),
+          child: Column(
+            children: [
+              // tabbar
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: kSpacing,
+                    left: kSpacing,
+                    right: kSpacing,
+                    top: topPadding),
+                child: AppBarCustom(
+                    title: 'Kết quả',
+                    icon: 'back.png',
                     onTap: () {
-                      Navigator.of(context).pushNamed('/');
-                    },
-                    child: Icon(
-                      Icons.home_outlined,
-                      color: whiteColor,
-                    ),
-                  ),
-                  Text(
-                    'Kết quả',
-                    style: titleStyte,
-                  ),
-                ],
-              ),
-            ),
-            // body
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  width: double.infinity,
-                  color: Colors.white,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            gradient: appBarGradient,
-                            borderRadius: kBorderRadius),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedboxInfo(
-                                image: 'assets/icons/t.png',
-                                text: formatTime(totalTime)),
-                            SizedboxInfo(
-                              text: '$totalQuestions',
-                              image: 'assets/icons/total.png',
-                            ),
-                            SizedboxInfo(
-                                image: 'assets/icons/v.png',
-                                text: '$correctAnswers'),
-                            SizedboxInfo(
-                                image: 'assets/icons/x.png',
-                                text: '${totalQuestions - correctAnswers}'),
-                            SizedboxInfo(
-                                image: 'assets/icons/info.png', text: '123')
-                          ],
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: const HomePage(),
+                          type: PageTransitionType.topToBottom,
                         ),
+                      );
+                    },
+                    widget: Container(
+                      height: 30.h,
+                      width: 75.w,
+                      decoration: BoxDecoration(
+                          color: whiteColor, borderRadius: kBorderRadius),
+                      child: Center(
+                        child: correctAnswers >= 21
+                            ? Text(
+                                'Đạt',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: blueColor,
+                                ),
+                              )
+                            : Text(
+                                'Không Đạt',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: errorColor),
+                              ),
                       ),
+                    )),
+              ),
 
-                      Expanded(
+              // body
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    width: double.infinity,
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                              gradient: appBarGradient,
+                              borderRadius: kBorderRadius),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedboxInfo(
+                                  image: 'assets/icons/t.png',
+                                  text: formatTime(totalTime)),
+                              SizedboxInfo(
+                                text: '$totalQuestions',
+                                image: 'assets/icons/total.png',
+                              ),
+                              SizedboxInfo(
+                                  image: 'assets/icons/v.png',
+                                  text: '$correctAnswers'),
+                              SizedboxInfo(
+                                  image: 'assets/icons/x.png',
+                                  text: '${totalQuestions - correctAnswers}'),
+                              // SizedboxInfo(
+                              //     image: 'assets/icons/info.png', text: '123')
+                            ],
+                          ),
+                        ),
+                        Expanded(
                           child: SingleChildScrollView(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(
-                            questions.length,
-                            (i) => Column(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Question ${i + 1}: ${questions[i].questionText}',
-                                  style: GoogleFonts.ubuntu(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: blackColor),
-                                ),
-                                SizedBox(height: 8.h),
-                                Text(
-                                  'Correct Answer: ${questions[i].options[questions[i].correctOptionIndex]}',
-                                  style: GoogleFonts.ubuntu(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w400,
-                                    color: blueColor,
-                                  ),
-                                ),
-                                SizedBox(height: 4.h),
-                                Text(
-                                  'Your Answer: ${userAnswers.containsKey(i) ? (userAnswers[i] != null ? questions[i].options[userAnswers[i]!] : 'Not answered') : 'Not answered'}',
-                                  style: GoogleFonts.ubuntu(
-                                    fontSize: 14.sp,
-                                    color: (userAnswers[i] != null
-                                                ? questions[i]
-                                                    .options[userAnswers[i]!]
-                                                : 'Not answered') ==
-                                            questions[i].options[
-                                                questions[i].correctOptionIndex]
-                                        ? blueColor
-                                        : errorColor,
-                                  ),
-                                ),
-                                Divider(
-                                  color: grayColor,
-                                ),
-                              ],
+                              children: List.generate(questions.length, (i) {
+                                final correctAnswer = questions[i]
+                                    .options[questions[i].correctOptionIndex];
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Câu hỏi ${i + 1}: ${questions[i].questionText}',
+                                      style: GoogleFonts.ubuntu(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: blackColor),
+                                    ),
+                                    SizedBox(height: 8.h),
+                                    Text(
+                                      'Đáp án: $correctAnswer',
+                                      style: GoogleFonts.ubuntu(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color: blueColor,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4.h),
+                                    Text(
+                                      'Bạn chọn: ${userAnswers.containsKey(i) ? (userAnswers[i] != null ? questions[i].options[userAnswers[i]!] : 'Bạn chưa chọn đáp án') : 'Bạn chưa chọn đáp án'}',
+                                      style: GoogleFonts.ubuntu(
+                                        fontSize: 14.sp,
+                                        color: (userAnswers[i] != null
+                                                    ? questions[i].options[
+                                                        userAnswers[i]!]
+                                                    : 'Bạn chưa chọn đáp án') ==
+                                                questions[i].options[
+                                                    questions[i]
+                                                        .correctOptionIndex]
+                                            ? blueColor
+                                            : errorColor,
+                                      ),
+                                    ),
+                                    Divider(
+                                      color: grayColor,
+                                    ),
+                                  ],
+                                );
+                              }),
                             ),
                           ),
                         ),
-                      )),
 
-                      // buttons
-                    ],
+                        // buttons
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

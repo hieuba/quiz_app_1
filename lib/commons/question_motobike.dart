@@ -36,7 +36,9 @@ class QuestionMotoBike extends StatelessWidget {
                 margin: EdgeInsets.only(left: 23.w, right: 12.w),
                 width: 72.w,
                 height: 72.h,
-                decoration: BoxDecoration(color: grayColor),
+                decoration: BoxDecoration(
+                    image:
+                        DecorationImage(image: AssetImage(examModel.thumnail))),
               ),
               Expanded(
                 child: Column(

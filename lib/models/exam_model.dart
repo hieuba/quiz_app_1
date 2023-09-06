@@ -8,6 +8,7 @@ class ExamModel {
   final String id;
   final String title;
   final int total_question;
+  final String thumnail;
 
   ExamModel({
     required this.questions,
@@ -17,7 +18,21 @@ class ExamModel {
     required this.id,
     required this.title,
     required this.total_question,
+    required this.thumnail,
   });
+
+  factory ExamModel.fromMap(Map<String, dynamic> map) {
+    return ExamModel(
+      id: map['id'],
+      time: map['time'],
+      description: map['description'],
+      category: map['category'],
+      questions: map['questions'],
+      title: map['title'],
+      total_question: map['total_question'],
+      thumnail: map['thumnail'],
+    );
+  }
 }
 
 enum Category { xeMay, oto }

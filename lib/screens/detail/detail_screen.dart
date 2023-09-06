@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:quiz_app/commons/app_bar.dart';
+import 'package:quiz_app/commons/appbar_custom.dart';
 import 'package:quiz_app/commons/start_quiz_button.dart';
 import 'package:quiz_app/constants/padding.dart';
 
@@ -23,167 +23,183 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
     return Scaffold(
       // layout
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: appBarGradient,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 28.h),
-            // tabbar
-            Padding(
-                padding: kHPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AppBarCustom(
-                      title: 'Chi tiết',
-                      icon: 'back.png',
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      widget: Container(
-                        height: 32,
-                        width: 32,
-                        decoration: BoxDecoration(
-                            color: tabbarColor, shape: BoxShape.circle),
-                      ),
-                    ),
-                    Padding(
-                      padding: kVPadding,
-                      child: Text(
-                        examModel.title,
-                        style: titleStyte,
-                      ),
-                    ),
-                  ],
-                )),
-
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25.r),
-                  topRight: Radius.circular(25.r),
-                ),
-                child: Column(
-                  children: [
-                    // questions index and questions list
-                    Expanded(
-                      child: Container(
-                        width: double.infinity,
-                        color: whiteColor,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 12.h),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: blueColor,
-                                  ),
-                                  height: 4.h,
-                                  width: 48.w,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(24),
-                                child: Container(
-                                  width: double.infinity,
-                                  // color: Colors.amber.shade100,
-                                  child: Column(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              'Giải thích ngắn gọn về bài thi',
-                                              style: GoogleFonts.nunito(
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w700,
-                                                color: blackColor,
-                                              ),
-                                            ),
-                                            SizedBox(height: 16.h),
-                                            InfoContainer(
-                                              icons: 'number_question.png',
-                                              title:
-                                                  '${examModel.total_question} Câu hỏi',
-                                              subTitle:
-                                                  '1 điểm cho câu trả lời đúng',
-                                            ),
-                                            SizedBox(height: 16.h),
-                                            InfoContainer(
-                                              icons: 'timer.png',
-                                              title: convertSecondsToMinutes(
-                                                  examModel.time.toString()),
-                                              subTitle:
-                                                  'Tổng thời lượng bài thi',
-                                            ),
-                                            SizedBox(height: 24.h),
-                                            Text(
-                                              'Please read the text below carefully so you can understand it',
-                                              style: GoogleFonts.nunito(
-                                                fontSize: 14.sp,
-                                                fontWeight: FontWeight.w700,
-                                                color: blackColor,
-                                              ),
-                                            ),
-                                            SizedBox(height: 16.h),
-                                            const TextCustom(
-                                              text:
-                                                  'Trả lời đúng được 1 điểm, trả lời sai không có điểm',
-                                            ),
-                                            const TextCustom(
-                                              text:
-                                                  'Nhấn vào các tùy chọn để chọn câu trả lời đúng',
-                                            ),
-                                            TextCustom(
-                                              text: examModel.title == 'Bằng A1'
-                                                  ? 'Để thi đạt bạn cần đúng 21/25 câu hỏi'
-                                                  : 'Để thi đạt bạn cần đúng 23/25 câu hỏi',
-                                            ),
-                                            const TextCustom(
-                                              text:
-                                                  'Nhấp vào chấm điểm nếu bạn chắc chắn muốn hoàn thành tất cả các câu đố',
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      StartQuizButton(
-                                        onTap: () {
-                                          Navigator.pushAndRemoveUntil(
-                                              context,
-                                              PageTransition(
-                                                  child: QuestionMotoBikeScreen(
-                                                      examModel: examModel),
-                                                  type: PageTransitionType
-                                                      .bottomToTop),
-                                              (route) => false);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
+      body: SafeArea(
+        bottom: false,
+        top: false,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: appBarGradient,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // SizedBox(height: 28.h),
+              // tabbar
+              Padding(
+                  padding: EdgeInsets.only(
+                      top: topPadding,
+                      bottom: kSpacing,
+                      left: kSpacing,
+                      right: kSpacing),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppBarCustom(
+                        title: 'Chi tiết',
+                        icon: 'back.png',
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        widget: Container(
+                          height: 32,
+                          width: 32,
+                          decoration: BoxDecoration(
+                              color: tabbarColor, shape: BoxShape.circle),
                         ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: kVPadding,
+                        child: Text(
+                          examModel.title,
+                          style: titleStyte,
+                        ),
+                      ),
+                    ],
+                  )),
+
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25.r),
+                    topRight: Radius.circular(25.r),
+                  ),
+                  child: Column(
+                    children: [
+                      // questions index and questions list
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          color: whiteColor,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.only(top: 12.h),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: blueColor,
+                                    ),
+                                    height: 4.h,
+                                    width: 48.w,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(24),
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    // color: Colors.amber.shade100,
+                                    child: Column(
+                                      children: [
+                                        Expanded(
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Giải thích ngắn gọn về bài thi',
+                                                  style: GoogleFonts.nunito(
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: blackColor,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 16.h),
+                                                InfoContainer(
+                                                  icons: 'number_question.png',
+                                                  title:
+                                                      '${examModel.total_question} Câu hỏi',
+                                                  subTitle:
+                                                      '1 điểm cho câu trả lời đúng',
+                                                ),
+                                                SizedBox(height: 16.h),
+                                                InfoContainer(
+                                                  icons: 'timer.png',
+                                                  title:
+                                                      convertSecondsToMinutes(
+                                                          examModel.time
+                                                              .toString()),
+                                                  subTitle:
+                                                      'Tổng thời lượng bài thi',
+                                                ),
+                                                SizedBox(height: 24.h),
+                                                Text(
+                                                  'Please read the text below carefully so you can understand it',
+                                                  style: GoogleFonts.nunito(
+                                                    fontSize: 14.sp,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: blackColor,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 16.h),
+                                                const TextCustom(
+                                                  text:
+                                                      'Trả lời đúng được 1 điểm, trả lời sai không có điểm',
+                                                ),
+                                                const TextCustom(
+                                                  text:
+                                                      'Nhấn vào các tùy chọn để chọn câu trả lời đúng',
+                                                ),
+                                                TextCustom(
+                                                  text: examModel.title ==
+                                                          'Bằng A1'
+                                                      ? 'Để thi đạt bạn cần đúng 21/25 câu hỏi'
+                                                      : 'Để thi đạt bạn cần đúng 23/25 câu hỏi',
+                                                ),
+                                                const TextCustom(
+                                                  text:
+                                                      'Nhấp vào chấm điểm nếu bạn chắc chắn muốn hoàn thành tất cả các câu đố',
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        StartQuizButton(
+                                          onTap: () {
+                                            Navigator.pushAndRemoveUntil(
+                                                context,
+                                                PageTransition(
+                                                    child:
+                                                        QuestionMotoBikeScreen(
+                                                            examModel:
+                                                                examModel),
+                                                    type: PageTransitionType
+                                                        .bottomToTop),
+                                                (route) => false);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

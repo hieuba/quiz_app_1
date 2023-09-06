@@ -24,6 +24,7 @@ class ExamBloc extends Bloc<ExamEvent, ExamState> {
         description: e['description'],
         title: e['title'],
         total_question: e['total_question'],
+        thumnail: e['thumnail'],
       );
     }).toList()));
   }
