@@ -17,7 +17,6 @@ import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/generate_map.dart';
 import 'package:quiz_app/models/question_model.dart';
 import 'package:quiz_app/screens/result/result_screen.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 class QuestionMotoBikeScreen extends StatefulWidget {
   const QuestionMotoBikeScreen({
@@ -364,21 +363,21 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                             ? const SizedBox()
                                             : Container(
                                                 height: 150.h,
-                                                child:
-                                                    FadeInImage.memoryNetwork(
-                                                        placeholder:
-                                                            kTransparentImage,
-                                                        image: currentQuestion
-                                                            .imageUrl
-                                                            .toString()),
-                                                /* decoration: BoxDecoration(
+
+                                                // FadeInImage.memoryNetwork(
+                                                //     placeholder:
+                                                //         kTransparentImage,
+                                                //     image: currentQuestion
+                                                //         .imageUrl
+                                                //         .toString()),
+                                                decoration: BoxDecoration(
                                                   image: DecorationImage(
-                                                      image: NetworkImage(
+                                                      image: AssetImage(
                                                         currentQuestion.imageUrl
                                                             .toString(),
                                                       ),
                                                       fit: BoxFit.contain),
-                                                ),  */
+                                                ),
                                               ),
                                         // answerindex
                                         Expanded(

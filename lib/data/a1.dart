@@ -62,7 +62,7 @@ final questionsA1 = [
         "Biển báo hiệu lệnh phải thi hành.",
         "Biển báo chỉ dẫn.",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/41.jpg',
+      imageUrl: 'assets/data/6.jpeg',
       correctOptionIndex: 2),
   //7
   QuestionModel(
@@ -145,7 +145,7 @@ final questionsA1 = [
         "Biển 2.",
         "Cả hai biển.",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/105.jpg',
+      imageUrl: 'assets/data/14.jpeg',
       correctOptionIndex: 0),
   //15 hịnh
   QuestionModel(
@@ -156,7 +156,7 @@ final questionsA1 = [
         "Biển 2.",
         "Biển 1 và Biển 2",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/113.jpg',
+      imageUrl: 'assets/data/15.jpeg',
       correctOptionIndex: 2),
   //16 hinh
   QuestionModel(
@@ -166,7 +166,7 @@ final questionsA1 = [
         "Biển 2",
         "Biển 3",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/121.jpg',
+      imageUrl: 'assets/data/16.jpeg',
       correctOptionIndex: 1),
   // 17 hinh
   QuestionModel(
@@ -177,7 +177,7 @@ final questionsA1 = [
         "Biển 2 và 3",
         "Cả 3 biển",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/129.jpg',
+      imageUrl: 'assets/data/17.jpeg',
       correctOptionIndex: 1),
   //18 hinh
   QuestionModel(
@@ -188,7 +188,7 @@ final questionsA1 = [
         "Biển 2",
         "Biển 3",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/137.jpg',
+      imageUrl: 'assets/data/18.jpeg',
       correctOptionIndex: 0),
   //19 hinh
   QuestionModel(
@@ -199,7 +199,7 @@ final questionsA1 = [
         "Biển 2",
         "Biển 3",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/145.jpg',
+      imageUrl: 'assets/data/19.jpeg',
       correctOptionIndex: 1),
   //20 hinh
   QuestionModel(
@@ -210,7 +210,7 @@ final questionsA1 = [
         "Biển 3",
         "Biển 2 và 3.",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/153.jpg',
+      imageUrl: 'assets/data/20.jpeg',
       correctOptionIndex: 3),
   //21 hinh
   QuestionModel(
@@ -222,7 +222,7 @@ final questionsA1 = [
         "Vạch 3.",
         "Cả 3 vạch",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/161.jpg',
+      imageUrl: 'assets/data/21.jpeg',
       correctOptionIndex: 1),
   //22 hịnh
   QuestionModel(
@@ -231,7 +231,7 @@ final questionsA1 = [
         "Mô tô.",
         "Xe cứu thương.",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/169.jpg',
+      imageUrl: 'assets/data/22.jpeg',
       correctOptionIndex: 1),
   // 23
   QuestionModel(
@@ -241,7 +241,7 @@ final questionsA1 = [
         "Đúng",
         "Không đúng",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/177.jpg',
+      imageUrl: 'assets/data/23.jpeg',
       correctOptionIndex: 1),
   //24 hinh
   QuestionModel(
@@ -253,7 +253,7 @@ final questionsA1 = [
         "Hướng 1 và 3."
             "Hướng 2 và 3.",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/185.jpg',
+      imageUrl: 'assets/data/24.jpeg',
       correctOptionIndex: 2),
   // 25 hinh
   QuestionModel(
@@ -264,6 +264,6 @@ final questionsA1 = [
         "Xe tải, xe khách, xe mô tô.",
         "Xe khách, xe mô tô, xe con.",
       ],
-      imageUrl: 'https://hoclaixehcm.vn/image200/193.jpg',
+      imageUrl: 'assets/data/25.jpeg',
       correctOptionIndex: 1),
 ];
