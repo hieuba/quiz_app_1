@@ -99,6 +99,7 @@ class ResutlScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(bottom: kSpacing),
                           child: Container(
+                            padding: kHPadding,
                             decoration: BoxDecoration(
                                 gradient: appBarGradient,
                                 borderRadius: kBorderRadius),
