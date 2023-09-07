@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:quiz_app/commons/show_dialog_custom.dart';
 import 'package:timer_count_down/timer_controller.dart';
@@ -18,6 +17,7 @@ import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/generate_map.dart';
 import 'package:quiz_app/models/question_model.dart';
 import 'package:quiz_app/screens/result/result_screen.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class QuestionMotoBikeScreen extends StatefulWidget {
   const QuestionMotoBikeScreen({
@@ -189,7 +189,7 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                             int seconds = (time % 60).floor();
                             return Text(
                               '$minutes:${seconds.toString().padLeft(2, '0')}',
-                              style: GoogleFonts.ubuntu(
+                              style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                                 color: blueColor,
@@ -352,7 +352,7 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                               EdgeInsets.only(bottom: 18.0.h),
                                           child: Text(
                                             currentQuestion.questionText,
-                                            style: GoogleFonts.ubuntu(
+                                            style: TextStyle(
                                                 fontSize: kLargeFontSize,
                                                 fontWeight: FontWeight.w500,
                                                 color: blackColor),
@@ -364,14 +364,21 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                             ? const SizedBox()
                                             : Container(
                                                 height: 150.h,
-                                                decoration: BoxDecoration(
+                                                child:
+                                                    FadeInImage.memoryNetwork(
+                                                        placeholder:
+                                                            kTransparentImage,
+                                                        image: currentQuestion
+                                                            .imageUrl
+                                                            .toString()),
+                                                /* decoration: BoxDecoration(
                                                   image: DecorationImage(
                                                       image: NetworkImage(
                                                         currentQuestion.imageUrl
                                                             .toString(),
                                                       ),
                                                       fit: BoxFit.contain),
-                                                ),
+                                                ),  */
                                               ),
                                         // answerindex
                                         Expanded(
@@ -425,8 +432,7 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                                               child: Text(
                                                                 optionLetter,
                                                                 style:
-                                                                    GoogleFonts
-                                                                        .ubuntu(
+                                                                    TextStyle(
                                                                   color:
                                                                       whiteColor,
                                                                   fontSize:
@@ -449,8 +455,7 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                                                           .options[
                                                                       index],
                                                                   style:
-                                                                      GoogleFonts
-                                                                          .ubuntu(
+                                                                      TextStyle(
                                                                     fontSize:
                                                                         kSmallFontSize,
                                                                     fontWeight:
@@ -610,7 +615,7 @@ class SubmitButton extends StatelessWidget {
         child: GradientText(
             text: 'Chấm điểm',
             gradient: textGradient,
-            textStyle: GoogleFonts.ubuntu(
+            textStyle: TextStyle(
               fontSize: kLargeFontSize,
               fontWeight: FontWeight.w500,
             )),

@@ -1,9 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:quiz_app/bloc/bloc/exam_bloc.dart';
 
 import 'package:quiz_app/commons/appbar_custom.dart';
 import 'package:quiz_app/commons/motobike.dart';
@@ -81,7 +79,7 @@ class _HomePageState extends State<HomePage>
                     ),
                     Text(
                       'Hello, friend',
-                      style: GoogleFonts.dmSans(
+                      style: TextStyle(
                           fontSize: kSmallFontSize, color: whiteColor),
                     ),
                     const SizedBox(height: 8),
@@ -130,7 +128,7 @@ class _HomePageState extends State<HomePage>
                                         color: Colors.transparent,
                                       ),
                                     ),
-                                    hintStyle: GoogleFonts.nunito(
+                                    hintStyle: TextStyle(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
                                       color: grayColor,
@@ -156,7 +154,7 @@ class _HomePageState extends State<HomePage>
                   child: TabBar(
                     dividerColor: Colors.transparent,
                     indicatorWeight: 1.2,
-                    labelStyle: GoogleFonts.nunito(
+                    labelStyle: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
@@ -283,7 +281,7 @@ class DataSearch extends SearchDelegate {
                           GradientText(
                             text: examsData['title'],
                             gradient: textGradient,
-                            textStyle: GoogleFonts.ubuntu(
+                            textStyle: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                             ),
@@ -365,7 +363,7 @@ class DataSearch extends SearchDelegate {
                           GradientText(
                             text: examsData['title'],
                             gradient: textGradient,
-                            textStyle: GoogleFonts.ubuntu(
+                            textStyle: TextStyle(
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w500,
                             ),

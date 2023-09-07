@@ -37,12 +37,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   hexcolor: ^3.0.1
   flutter_native_splash: ^2.3.2
-  google_fonts: ^5.1.0
   flutter_screenutil: ^5.9.0
   timer_count_down: ^2.2.2
   flutter_bloc: ^8.1.3
   bloc: ^8.1.2
   page_transition: ^2.0.9
+  transparent_image: ^2.0.1
 
 
 flutter_native_splash:
@@ -81,7 +81,6 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    - assets/data/demo.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -95,12 +94,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito/static/Nunito-Regular.ttf
+        - asset: assets/fonts/Nunito/static/Nunito-Italic.ttf
+          weight: 700
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

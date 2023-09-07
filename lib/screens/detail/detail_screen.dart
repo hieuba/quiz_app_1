@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:quiz_app/commons/appbar_custom.dart';
 import 'package:quiz_app/commons/start_quiz_button.dart';
@@ -11,6 +10,7 @@ import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/generate_map.dart';
 import 'package:quiz_app/models/exam_model.dart';
 import 'package:quiz_app/screens/question_screens/questions_motobike_screen.dart';
+import 'package:quiz_app/screens/result/result_screen.dart';
 
 // ignore: must_be_immutable
 class DetailScreen extends StatelessWidget {
@@ -115,7 +115,7 @@ class DetailScreen extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   'Giải thích ngắn gọn về bài thi',
-                                                  style: GoogleFonts.nunito(
+                                                  style: TextStyle(
                                                     fontSize: 16.sp,
                                                     fontWeight: FontWeight.w700,
                                                     color: blackColor,
@@ -142,7 +142,7 @@ class DetailScreen extends StatelessWidget {
                                                 SizedBox(height: 24.h),
                                                 Text(
                                                   'Please read the text below carefully so you can understand it',
-                                                  style: GoogleFonts.nunito(
+                                                  style: TextStyle(
                                                     fontSize: 14.sp,
                                                     fontWeight: FontWeight.w700,
                                                     color: blackColor,
@@ -173,16 +173,28 @@ class DetailScreen extends StatelessWidget {
                                         ),
                                         StartQuizButton(
                                           onTap: () {
-                                            Navigator.pushAndRemoveUntil(
-                                                context,
-                                                PageTransition(
-                                                    child:
-                                                        QuestionMotoBikeScreen(
-                                                            examModel:
-                                                                examModel),
-                                                    type: PageTransitionType
-                                                        .bottomToTop),
-                                                (route) => false);
+                                            examModel.title == 'Bằng A1'
+                                                ? Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    PageTransition(
+                                                        child:
+                                                            QuestionMotoBikeScreen(
+                                                                examModel:
+                                                                    examModel),
+                                                        type: PageTransitionType
+                                                            .bottomToTop),
+                                                    (route) => false)
+                                                : ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                    SnackBar(
+                                                      duration: const Duration(
+                                                          seconds: 1),
+                                                      backgroundColor:
+                                                          blueColor,
+                                                      content: const Text(
+                                                          'Chúng tôi sẽ cập nhật sau!!'),
+                                                    ),
+                                                  );
                                           },
                                         ),
                                       ],
@@ -231,7 +243,7 @@ class TextCustom extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: GoogleFonts.nunito(
+              style: TextStyle(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
                 color: blackColor,
@@ -283,7 +295,7 @@ class InfoContainer extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: GoogleFonts.ubuntu(
+                style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w500,
                   color: blackColor,
@@ -291,7 +303,7 @@ class InfoContainer extends StatelessWidget {
               ),
               Text(
                 subTitle,
-                style: GoogleFonts.nunito(
+                style: TextStyle(
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: tabbarColor,

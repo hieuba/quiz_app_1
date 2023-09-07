@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/commons/question_and_minute.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
@@ -42,10 +41,7 @@ class CountinueQuestion extends StatelessWidget {
                         GradientText(
                           text: 'Animation',
                           gradient: textGradient,
-                          textStyle: GoogleFonts.ubuntu(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          textStyle: buttonStyle,
                         ),
                         const QuestionAndMinute(
                           image: 'assets/icons/number_question.png',
@@ -79,11 +75,7 @@ class CountinueQuestion extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'Countinue Quiz',
-                      style: GoogleFonts.ubuntu(
-                        color: whiteColor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
+                      style: buttonStyle,
                     ),
                   ),
                 )

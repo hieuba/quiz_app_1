@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:quiz_app/constants/padding.dart';
 
@@ -16,6 +16,7 @@ class ThemeClass {
     useMaterial3: true,
     colorScheme: const ColorScheme.dark()
         .copyWith(primary: _themeClass.darkPrimaryColor),
+    fontFamily: 'Nunito',
   );
 }
 
@@ -66,8 +67,13 @@ var textGradient = const LinearGradient(
   ],
 );
 
-var titleStyte = GoogleFonts.ubuntu(
-    fontSize: kTitleFontSize, fontWeight: FontWeight.w700, color: whiteColor);
+var titleStyte = TextStyle(
+  fontSize: kTitleFontSize,
+  fontWeight: FontWeight.w700,
+  color: whiteColor,
+);
+
+var buttonStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 16.sp);
 
 class GradientText extends StatelessWidget {
   final String text;
