@@ -9,8 +9,9 @@ class ThemeClass {
 
   static ThemeData lightTheme = ThemeData(
       useMaterial3: true,
-      colorScheme: const ColorScheme.light()
-          .copyWith(primary: _themeClass.lightPrimaryColor));
+      colorScheme: const ColorScheme.light().copyWith(
+        primary: _themeClass.lightPrimaryColor,
+      ));
 
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
