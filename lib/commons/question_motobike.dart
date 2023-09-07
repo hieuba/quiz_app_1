@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/commons/question_and_minute.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/generate_map.dart';
 import 'package:quiz_app/models/exam_model.dart';
+import 'package:quiz_app/screens/result/result_screen.dart';
 
 class QuestionMotoBike extends StatelessWidget {
   const QuestionMotoBike({
@@ -48,7 +48,7 @@ class QuestionMotoBike extends StatelessWidget {
                     GradientText(
                       text: examModel.title.toString(),
                       gradient: textGradient,
-                      textStyle: GoogleFonts.ubuntu(
+                      textStyle: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
                       ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:quiz_app/commons/appbar_custom.dart';
 import 'package:quiz_app/constants/padding.dart';
@@ -97,29 +96,32 @@ class ResutlScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          decoration: BoxDecoration(
-                              gradient: appBarGradient,
-                              borderRadius: kBorderRadius),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedboxInfo(
-                                  image: 'assets/icons/t.png',
-                                  text: formatTime(totalTime)),
-                              SizedboxInfo(
-                                text: '$totalQuestions',
-                                image: 'assets/icons/total.png',
-                              ),
-                              SizedboxInfo(
-                                  image: 'assets/icons/v.png',
-                                  text: '$correctAnswers'),
-                              SizedboxInfo(
-                                  image: 'assets/icons/x.png',
-                                  text: '${totalQuestions - correctAnswers}'),
-                              // SizedboxInfo(
-                              //     image: 'assets/icons/info.png', text: '123')
-                            ],
+                        Padding(
+                          padding: EdgeInsets.only(bottom: kSpacing),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                gradient: appBarGradient,
+                                borderRadius: kBorderRadius),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                SizedboxInfo(
+                                    image: 'assets/icons/t.png',
+                                    text: formatTime(totalTime)),
+                                SizedboxInfo(
+                                  text: '$totalQuestions',
+                                  image: 'assets/icons/total.png',
+                                ),
+                                SizedboxInfo(
+                                    image: 'assets/icons/v.png',
+                                    text: '$correctAnswers'),
+                                SizedboxInfo(
+                                    image: 'assets/icons/x.png',
+                                    text: '${totalQuestions - correctAnswers}'),
+                                // SizedboxInfo(
+                                //     image: 'assets/icons/info.png', text: '123')
+                              ],
+                            ),
                           ),
                         ),
                         Expanded(
@@ -129,12 +131,14 @@ class ResutlScreen extends StatelessWidget {
                               children: List.generate(questions.length, (i) {
                                 final correctAnswer = questions[i]
                                     .options[questions[i].correctOptionIndex];
+
+                                final isLastItem = i == questions.length - 1;
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       'Câu hỏi ${i + 1}: ${questions[i].questionText}',
-                                      style: GoogleFonts.ubuntu(
+                                      style: TextStyle(
                                           fontSize: 16.sp,
                                           fontWeight: FontWeight.w500,
                                           color: blackColor),
@@ -142,7 +146,7 @@ class ResutlScreen extends StatelessWidget {
                                     SizedBox(height: 8.h),
                                     Text(
                                       'Đáp án: $correctAnswer',
-                                      style: GoogleFonts.ubuntu(
+                                      style: TextStyle(
                                         fontSize: 14.sp,
                                         fontWeight: FontWeight.w400,
                                         color: blueColor,
@@ -151,7 +155,7 @@ class ResutlScreen extends StatelessWidget {
                                     SizedBox(height: 4.h),
                                     Text(
                                       'Bạn chọn: ${userAnswers.containsKey(i) ? (userAnswers[i] != null ? questions[i].options[userAnswers[i]!] : 'Bạn chưa chọn đáp án') : 'Bạn chưa chọn đáp án'}',
-                                      style: GoogleFonts.ubuntu(
+                                      style: TextStyle(
                                         fontSize: 14.sp,
                                         color: (userAnswers[i] != null
                                                     ? questions[i].options[
@@ -164,17 +168,16 @@ class ResutlScreen extends StatelessWidget {
                                             : errorColor,
                                       ),
                                     ),
-                                    Divider(
-                                      color: grayColor,
-                                    ),
+                                    if (!isLastItem)
+                                      Divider(
+                                        color: grayColor,
+                                      ),
                                   ],
                                 );
                               }),
                             ),
                           ),
                         ),
-
-                        // buttons
                       ],
                     ),
                   ),
@@ -222,7 +225,7 @@ String formatTime(int seconds) {
   return '$minutes:${remainingSeconds.toString().padLeft(2, '0')}';
 }
 
-var textStye = GoogleFonts.ubuntu(
+var textStye = TextStyle(
   fontSize: 16.sp,
   fontWeight: FontWeight.w500,
   color: whiteColor,

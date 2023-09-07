@@ -1,11 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/data/a1.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
@@ -244,7 +241,7 @@ class _QuizScreenState extends State<QuizScreen> {
                             int seconds = (time % 60).floor();
                             return Text(
                               '$minutes:${seconds.toString().padLeft(2, '0')}',
-                              style: GoogleFonts.ubuntu(
+                              style: TextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                                 color: blueColor,
@@ -394,7 +391,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                     padding: EdgeInsets.only(bottom: 18.0.h),
                                     child: Text(
                                       currentQuestion.questionText,
-                                      style: GoogleFonts.ubuntu(
+                                      style: TextStyle(
                                           fontSize: kLargeFontSize,
                                           fontWeight: FontWeight.w500,
                                           color: blackColor),
@@ -432,7 +429,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                                 ),
                                                 child: Text(
                                                   optionLetter,
-                                                  style: GoogleFonts.ubuntu(
+                                                  style: TextStyle(
                                                     color: whiteColor,
                                                     fontSize: kTitleFontSize,
                                                     fontWeight: FontWeight.w500,
@@ -446,7 +443,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                                   child: Text(
                                                     currentQuestion
                                                         .options[index],
-                                                    style: GoogleFonts.ubuntu(
+                                                    style: TextStyle(
                                                       fontSize: kSmallFontSize,
                                                       fontWeight:
                                                           FontWeight.w400,
@@ -558,7 +555,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                 child: GradientText(
                                     text: 'Submit Quiz',
                                     gradient: textGradient,
-                                    textStyle: GoogleFonts.ubuntu(
+                                    textStyle: TextStyle(
                                       fontSize: kLargeFontSize,
                                       fontWeight: FontWeight.w500,
                                     )),
