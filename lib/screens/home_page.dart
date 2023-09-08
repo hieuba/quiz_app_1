@@ -42,8 +42,32 @@ class _HomePageState extends State<HomePage>
     final topPadding = MediaQuery.of(context).padding.top;
     return Scaffold(
       key: _scaffoldKey,
-      drawer: const Drawer(
-        backgroundColor: Colors.amber,
+      drawer: Drawer(
+        backgroundColor: Colors.blue.shade100,
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+          ],
+        ),
       ),
       body: SafeArea(
         top: false,
@@ -69,12 +93,18 @@ class _HomePageState extends State<HomePage>
                     AppBarCustom(
                       title: '',
                       icon: 'menu.png',
-                      onTap: () {},
+                      onTap: () {
+                        _scaffoldKey.currentState!.openDrawer();
+                      },
                       widget: Container(
                         height: 32,
                         width: 32,
                         decoration: BoxDecoration(
-                            color: tabbarColor, shape: BoxShape.circle),
+                            color: tabbarColor,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image:
+                                    AssetImage('assets/icons/icon_app.png'))),
                       ),
                     ),
                     Text(

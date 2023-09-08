@@ -95,13 +95,20 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
   void _choseQuestionIndex(currentQuestIndex, answerIndex) {
     setState(() {
       objAnswers = {...objAnswers, currentQuestIndex: answerIndex};
+      selectedQuestions[currentQuestIndex] = true;
     });
   }
+
+  List<bool> selectedQuestions = [];
 
   @override
   void initState() {
     super.initState();
-
+// Khởi tạo danh sách selectedQuestions với giá trị false
+    selectedQuestions = List.filled(
+      widget.examModel.questions.length,
+      false,
+    );
     // Sáo trộn danh sách câu hỏi
     widget.examModel.questions.shuffle();
   }
@@ -261,6 +268,7 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                         itemCount:
                                             widget.examModel.questions.length,
                                         itemBuilder: (context, index) {
+                                          // bool isChosen =
                                           return GestureDetector(
                                             onTap: () {
                                               scrollToIndex(index);
@@ -291,7 +299,12 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          color: whiteColor),
+                                                          color:
+                                                              selectedQuestions[
+                                                                      index]
+                                                                  ? Colors
+                                                                      .orange
+                                                                  : whiteColor),
                                                     ),
                                                   ),
                                                 ),
