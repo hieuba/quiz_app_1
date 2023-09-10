@@ -173,7 +173,9 @@ class DetailScreen extends StatelessWidget {
                                         ),
                                         StartQuizButton(
                                           onTap: () {
-                                            examModel.title == 'Bằng A1'
+                                            examModel.title == 'Bằng A1' ||
+                                                    examModel.title ==
+                                                        'Trắc nghiệm toán lớp 1'
                                                 ? Navigator.pushAndRemoveUntil(
                                                     context,
                                                     PageTransition(
