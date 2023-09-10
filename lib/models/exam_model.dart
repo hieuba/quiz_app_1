@@ -35,4 +35,4 @@ class ExamModel {
   }
 }
 
-enum Category { xeMay, oto }
+enum Category { xeMay, oto, math }

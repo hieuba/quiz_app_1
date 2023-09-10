@@ -535,7 +535,8 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                                   calculateCorrectAnswers(),
                                               totalQuestions: widget
                                                   .examModel.questions.length,
-                                              questions: questionsA1,
+                                              questions:
+                                                  widget.examModel.questions,
                                               userAnswers: objAnswers,
                                             ),
                                           ),

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "451238162745",
+    "project_id": "knowledge-bbea3",
+    "storage_bucket": "knowledge-bbea3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451238162745:android:44280522576e282c05f8e8",
+        "android_client_info": {
+          "package_name": "com.liketraicay.quizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "451238162745-vdjlbm29v9tb851nsmphp4q5lt876953.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNjB_j4wy-4uzxJfJaYdc0MxQUzIokQAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "451238162745-vdjlbm29v9tb851nsmphp4q5lt876953.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "451238162745-agomr5r95rsmrabfvnvhfk1bnl1p5ufd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.liketraicay.quizapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
