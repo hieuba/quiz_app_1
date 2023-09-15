@@ -119,469 +119,493 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
     super.dispose();
   }
 
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+            context: context,
+            builder: (context) => DialogCustom(
+                done: () {
+                  Navigator.of(context).popAndPushNamed('/');
+                },
+                cancle: () {
+                  Navigator.of(context).pop();
+                },
+                title: 'Thông báo',
+                content: 'Bạn có muốn thoát không?'))) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     QuestionModel currentQuestion =
         widget.examModel.questions[currentQuestionIndex];
     double width = MediaQuery.of(context).size.width;
     final topPadding = MediaQuery.of(context).padding.top;
-    return Scaffold(
-      // layout
-      body: SafeArea(
-        bottom: false,
-        top: false,
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: appBarGradient,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // appbar
-              Padding(
-                padding: EdgeInsets.only(
-                  bottom: kSpacing,
-                  left: kSpacing,
-                  right: kSpacing,
-                  top: topPadding,
-                ),
-                child: AppBarCustom(
-                  title: widget.examModel.title,
-                  icon: 'back.png',
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return DialogCustom(
-                          done: () {
-                            _countdownController.pause();
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                child: const HomePage(),
-                                type: PageTransitionType.topToBottom,
-                              ),
-                            );
-                          },
-                          cancle: () {
-                            Navigator.of(context).pop();
-                          },
-                          title: 'Thông báo',
-                          content: 'Bạn có muốn thoát không?',
-                        );
-                      },
-                    );
-                  },
-                  widget: Container(
-                    width: 72.w,
-                    height: 24.h,
-                    decoration: BoxDecoration(
-                      color: whiteColor,
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Image.asset(
-                          'assets/icons/timer.png',
-                          color: blueColor,
-                        ),
-                        Countdown(
-                          controller: _countdownController,
-                          seconds: widget.examModel.time,
-                          build: (_, double time) {
-                            _totalTime = widget.examModel.time - time.toInt();
-                            int minutes = (time / 60).floor();
-                            int seconds = (time % 60).floor();
-                            return Text(
-                              '$minutes:${seconds.toString().padLeft(2, '0')}',
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                                color: blueColor,
-                              ),
-                            );
-                          },
-                          interval: const Duration(milliseconds: 1000),
-                          onFinished: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) {
-                                return ResutlScreen(
-                                  totalTime: _totalTime,
-                                  totalQuestions:
-                                      widget.examModel.questions.length,
-                                  correctAnswers: calculateCorrectAnswers(),
-                                  questions: questionsA1,
-                                  userAnswers: objAnswers,
-                                );
-                              },
-                            ));
-                          },
-                        ),
-                      ],
-                    ),
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        // layout
+        body: SafeArea(
+          bottom: false,
+          top: false,
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: appBarGradient,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // appbar
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: kSpacing,
+                    left: kSpacing,
+                    right: kSpacing,
+                    top: topPadding,
                   ),
-                ),
-              ),
-
-              // body
-              Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25.r),
-                    topRight: Radius.circular(25.r),
-                  ),
-                  child: Column(
-                    children: [
-                      // questions index and questions list
-                      Expanded(
-                        child: Container(
-                          color: whiteColor,
-                          child: Column(
-                            children: [
-                              // thanh ngang
-/*
-                              Padding(
-                                padding: EdgeInsets.only(top: 16.h),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: blueColor,
-                                  ),
-                                  height: 4.h,
-                                  width: 48.w,
+                  child: AppBarCustom(
+                    title: widget.examModel.title,
+                    icon: 'back.png',
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return DialogCustom(
+                            done: () {
+                              _countdownController.pause();
+                              Navigator.push(
+                                context,
+                                PageTransition(
+                                  child: const HomePage(),
+                                  type: PageTransitionType.topToBottom,
                                 ),
-                              ),
-                              */
-                              // index questions
-                              Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 30),
-                                color: whiteColor,
-                                height: 75.h,
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                      child: ListView.builder(
-                                        controller: _scrollController,
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount:
-                                            widget.examModel.questions.length,
-                                        itemBuilder: (context, index) {
-                                          // bool isChosen =
-                                          return GestureDetector(
-                                            onTap: () {
-                                              scrollToIndex(index);
-                                              setState(() {
-                                                currentQuestionIndex = index;
-                                              });
-                                            },
-                                            child: SizedBox(
-                                              width: (width - 2 * 30) / 7,
-                                              child: Center(
-                                                child: Container(
-                                                  margin:
-                                                      const EdgeInsets.all(7),
-                                                  width: width / 7,
-                                                  decoration: BoxDecoration(
-                                                    gradient: widget.examModel
-                                                                    .questions[
-                                                                index] ==
-                                                            currentQuestion
-                                                        ? indexGradient
-                                                        : null,
-                                                    shape: BoxShape.circle,
-                                                    color: grayColor,
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      '${index + 1}',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color:
-                                                              selectedQuestions[
-                                                                      index]
-                                                                  ? Colors
-                                                                      .orange
-                                                                  : whiteColor),
+                              );
+                            },
+                            cancle: () {
+                              Navigator.of(context).pop();
+                            },
+                            title: 'Thông báo',
+                            content: 'Bạn có muốn thoát không?',
+                          );
+                        },
+                      );
+                    },
+                    widget: Container(
+                      width: 72.w,
+                      height: 24.h,
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Image.asset(
+                            'assets/icons/timer.png',
+                            color: blueColor,
+                          ),
+                          Countdown(
+                            controller: _countdownController,
+                            seconds: widget.examModel.time,
+                            build: (_, double time) {
+                              _totalTime = widget.examModel.time - time.toInt();
+                              int minutes = (time / 60).floor();
+                              int seconds = (time % 60).floor();
+                              return Text(
+                                '$minutes:${seconds.toString().padLeft(2, '0')}',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: blueColor,
+                                ),
+                              );
+                            },
+                            interval: const Duration(milliseconds: 1000),
+                            onFinished: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) {
+                                  return ResutlScreen(
+                                    totalTime: _totalTime,
+                                    totalQuestions:
+                                        widget.examModel.questions.length,
+                                    correctAnswers: calculateCorrectAnswers(),
+                                    questions: questionsA1,
+                                    userAnswers: objAnswers,
+                                  );
+                                },
+                              ));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                // body
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25.r),
+                      topRight: Radius.circular(25.r),
+                    ),
+                    child: Column(
+                      children: [
+                        // questions index and questions list
+                        Expanded(
+                          child: Container(
+                            color: whiteColor,
+                            child: Column(
+                              children: [
+                                // thanh ngang
+                                /*
+                                Padding(
+                                  padding: EdgeInsets.only(top: 16.h),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: blueColor,
+                                    ),
+                                    height: 4.h,
+                                    width: 48.w,
+                                  ),
+                                ),
+                                */
+                                // index questions
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30),
+                                  color: whiteColor,
+                                  height: 75.h,
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: ListView.builder(
+                                          controller: _scrollController,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              widget.examModel.questions.length,
+                                          itemBuilder: (context, index) {
+                                            // bool isChosen =
+                                            return GestureDetector(
+                                              onTap: () {
+                                                scrollToIndex(index);
+                                                setState(() {
+                                                  currentQuestionIndex = index;
+                                                });
+                                              },
+                                              child: SizedBox(
+                                                width: (width - 2 * 30) / 7,
+                                                child: Center(
+                                                  child: Container(
+                                                    margin:
+                                                        const EdgeInsets.all(7),
+                                                    width: width / 7,
+                                                    decoration: BoxDecoration(
+                                                      gradient: widget.examModel
+                                                                      .questions[
+                                                                  index] ==
+                                                              currentQuestion
+                                                          ? indexGradient
+                                                          : null,
+                                                      shape: BoxShape.circle,
+                                                      color: grayColor,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        '${index + 1}',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: selectedQuestions[
+                                                                    index]
+                                                                ? Colors.orange
+                                                                : whiteColor),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    // ----
-                                    SizedBox(
-                                      height: 2.h,
-                                      child: ListView.builder(
-                                        controller: _scrollController,
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount:
-                                            widget.examModel.questions.length,
-                                        itemBuilder: (context, index) {
-                                          return GestureDetector(
-                                            onTap: () {
-                                              scrollToIndex(index);
-                                              setState(() {
-                                                currentQuestionIndex = index;
-                                              });
-                                            },
-                                            child: Container(
-                                              width: (width - 2 * 30) / 7,
-                                              color: widget.examModel
-                                                          .questions[index] ==
-                                                      currentQuestion
-                                                  ? Colors.blue
-                                                  : grayColor,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // questions
-                              Expanded(
-                                child: SizedBox(
-                                  height: double.infinity,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 8.h,
-                                        left: kSpacing,
-                                        right: kSpacing),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // question text
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.only(bottom: 18.0.h),
-                                          child: Text(
-                                            currentQuestion.questionText,
-                                            style: TextStyle(
-                                                fontSize: kLargeFontSize,
-                                                fontWeight: FontWeight.w500,
-                                                color: blackColor),
-                                          ),
+                                            );
+                                          },
                                         ),
-                                        // imageUrl ?
-
-                                        currentQuestion.imageUrl == null
-                                            ? const SizedBox()
-                                            : Container(
-                                                height: 150.h,
-
-                                                // FadeInImage.memoryNetwork(
-                                                //     placeholder:
-                                                //         kTransparentImage,
-                                                //     image: currentQuestion
-                                                //         .imageUrl
-                                                //         .toString()),
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: AssetImage(
-                                                        currentQuestion.imageUrl
-                                                            .toString(),
-                                                      ),
-                                                      fit: BoxFit.contain),
-                                                ),
+                                      ),
+                                      // ----
+                                      SizedBox(
+                                        height: 2.h,
+                                        child: ListView.builder(
+                                          controller: _scrollController,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              widget.examModel.questions.length,
+                                          itemBuilder: (context, index) {
+                                            return GestureDetector(
+                                              onTap: () {
+                                                scrollToIndex(index);
+                                                setState(() {
+                                                  currentQuestionIndex = index;
+                                                });
+                                              },
+                                              child: Container(
+                                                width: (width - 2 * 30) / 7,
+                                                color: widget.examModel
+                                                            .questions[index] ==
+                                                        currentQuestion
+                                                    ? Colors.blue
+                                                    : grayColor,
                                               ),
-                                        // answerindex
-                                        Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.only(top: 10.h),
-                                            height: double.infinity,
-                                            child: SingleChildScrollView(
-                                              child: Column(
-                                                children: List.generate(
-                                                  currentQuestion
-                                                      .options.length,
-                                                  (index) {
-                                                    bool isActiveAnswer =
-                                                        objAnswers[
-                                                                currentQuestionIndex] ==
-                                                            index;
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // questions
+                                Expanded(
+                                  child: SizedBox(
+                                    height: double.infinity,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 8.h,
+                                          left: kSpacing,
+                                          right: kSpacing),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // question text
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.only(bottom: 18.0.h),
+                                            child: Text(
+                                              currentQuestion.questionText,
+                                              style: TextStyle(
+                                                  fontSize: kLargeFontSize,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: blackColor),
+                                            ),
+                                          ),
+                                          // imageUrl ?
 
-                                                    String optionLetter =
-                                                        String.fromCharCode(
-                                                            'A'.codeUnitAt(0) +
-                                                                index);
-                                                    return Padding(
-                                                      padding: EdgeInsets.only(
-                                                          bottom: 16.h),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          _choseQuestionIndex(
-                                                            currentQuestionIndex,
-                                                            index,
-                                                          );
-                                                        },
-                                                        child: Row(
-                                                          children: [
-                                                            Container(
-                                                              width: 40.w,
-                                                              height: 40.h,
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                gradient:
-                                                                    isActiveAnswer
-                                                                        ? indexGradient
-                                                                        : null,
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                color:
-                                                                    grayColor,
-                                                              ),
-                                                              child: Text(
-                                                                optionLetter,
-                                                                style:
-                                                                    TextStyle(
+                                          currentQuestion.imageUrl == null
+                                              ? const SizedBox()
+                                              : Container(
+                                                  height: 150.h,
+
+                                                  // FadeInImage.memoryNetwork(
+                                                  //     placeholder:
+                                                  //         kTransparentImage,
+                                                  //     image: currentQuestion
+                                                  //         .imageUrl
+                                                  //         .toString()),
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: AssetImage(
+                                                          currentQuestion
+                                                              .imageUrl
+                                                              .toString(),
+                                                        ),
+                                                        fit: BoxFit.contain),
+                                                  ),
+                                                ),
+                                          // answerindex
+                                          Expanded(
+                                            child: Container(
+                                              padding:
+                                                  EdgeInsets.only(top: 10.h),
+                                              height: double.infinity,
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  children: List.generate(
+                                                    currentQuestion
+                                                        .options.length,
+                                                    (index) {
+                                                      bool isActiveAnswer =
+                                                          objAnswers[
+                                                                  currentQuestionIndex] ==
+                                                              index;
+
+                                                      String optionLetter =
+                                                          String.fromCharCode(
+                                                              'A'.codeUnitAt(
+                                                                      0) +
+                                                                  index);
+                                                      return Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                bottom: 16.h),
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            _choseQuestionIndex(
+                                                              currentQuestionIndex,
+                                                              index,
+                                                            );
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Container(
+                                                                width: 40.w,
+                                                                height: 40.h,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  gradient:
+                                                                      isActiveAnswer
+                                                                          ? indexGradient
+                                                                          : null,
+                                                                  shape: BoxShape
+                                                                      .circle,
                                                                   color:
-                                                                      whiteColor,
-                                                                  fontSize:
-                                                                      kTitleFontSize,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
+                                                                      grayColor,
                                                                 ),
-                                                              ),
-                                                            ),
-                                                            // answer
-                                                            Expanded(
-                                                              child: Padding(
-                                                                padding: EdgeInsets
-                                                                    .only(
-                                                                        left: 8.0
-                                                                            .w),
                                                                 child: Text(
-                                                                  currentQuestion
-                                                                          .options[
-                                                                      index],
+                                                                  optionLetter,
                                                                   style:
                                                                       TextStyle(
+                                                                    color:
+                                                                        whiteColor,
                                                                     fontSize:
-                                                                        kSmallFontSize,
+                                                                        kTitleFontSize,
                                                                     fontWeight:
                                                                         FontWeight
-                                                                            .w400,
-                                                                    color: isActiveAnswer
-                                                                        ? Colors
-                                                                            .blue
-                                                                        : Colors
-                                                                            .black,
+                                                                            .w500,
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
+                                                              // answer
+                                                              Expanded(
+                                                                child: Padding(
+                                                                  padding: EdgeInsets
+                                                                      .only(
+                                                                          left:
+                                                                              8.0.w),
+                                                                  child: Text(
+                                                                    currentQuestion
+                                                                            .options[
+                                                                        index],
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          kSmallFontSize,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400,
+                                                                      color: isActiveAnswer
+                                                                          ? Colors
+                                                                              .blue
+                                                                          : Colors
+                                                                              .black,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ),
-                                                    );
-                                                  },
+                                                      );
+                                                    },
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // buttons
+                        Container(
+                          padding: EdgeInsets.only(bottom: 24.h),
+                          color: whiteColor,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              // previos btn
+                              GestureDetector(
+                                onTap: _previousQuestion,
+                                child: currentQuestionIndex != 0
+                                    ? const PreviosButton()
+                                    : SizedBox(
+                                        height: 50.h,
+                                        width: 50.w,
+                                      ),
+                              ),
+                              // submit btn
+                              GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return DialogCustom(
+                                        done: () {
+                                          Navigator.of(context)
+                                              .pushAndRemoveUntil(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ResutlScreen(
+                                                totalTime: _totalTime,
+                                                correctAnswers:
+                                                    calculateCorrectAnswers(),
+                                                totalQuestions: widget
+                                                    .examModel.questions.length,
+                                                questions:
+                                                    widget.examModel.questions,
+                                                userAnswers: objAnswers,
+                                              ),
+                                            ),
+                                            (route) => false,
+                                          );
+                                        },
+                                        cancle: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        title: 'Kết thúc',
+                                        content:
+                                            'Bạn có muốn kết thúc câu hỏi?',
+                                      );
+                                    },
+                                  );
+                                },
+                                child: const SubmitButton(),
+                              ),
+                              // next btn
+                              GestureDetector(
+                                onTap: objAnswers[currentQuestionIndex] !=
+                                            null &&
+                                        !(currentQuestionIndex ==
+                                            widget.examModel.questions.length -
+                                                1)
+                                    ? _nextQuestion
+                                    : null,
+                                child: currentQuestionIndex !=
+                                        widget.examModel.questions.length - 1
+                                    ? NextButton(
+                                        objAnswers: objAnswers,
+                                        currentQuestionIndex:
+                                            currentQuestionIndex,
+                                        widget: widget,
+                                      )
+                                    : SizedBox(
+                                        height: 50.h,
+                                        width: 50.w,
+                                      ),
                               ),
                             ],
                           ),
-                        ),
-                      ),
-                      // buttons
-                      Container(
-                        padding: EdgeInsets.only(bottom: 24.h),
-                        color: whiteColor,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // previos btn
-                            GestureDetector(
-                              onTap: _previousQuestion,
-                              child: currentQuestionIndex != 0
-                                  ? const PreviosButton()
-                                  : SizedBox(
-                                      height: 50.h,
-                                      width: 50.w,
-                                    ),
-                            ),
-                            // submit btn
-                            GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return DialogCustom(
-                                      done: () {
-                                        Navigator.of(context)
-                                            .pushAndRemoveUntil(
-                                          MaterialPageRoute(
-                                            builder: (context) => ResutlScreen(
-                                              totalTime: _totalTime,
-                                              correctAnswers:
-                                                  calculateCorrectAnswers(),
-                                              totalQuestions: widget
-                                                  .examModel.questions.length,
-                                              questions:
-                                                  widget.examModel.questions,
-                                              userAnswers: objAnswers,
-                                            ),
-                                          ),
-                                          (route) => false,
-                                        );
-                                      },
-                                      cancle: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      title: 'Kết thúc',
-                                      content: 'Bạn có muốn kết thúc câu hỏi?',
-                                    );
-                                  },
-                                );
-                              },
-                              child: const SubmitButton(),
-                            ),
-                            // next btn
-                            GestureDetector(
-                              onTap: objAnswers[currentQuestionIndex] != null &&
-                                      !(currentQuestionIndex ==
-                                          widget.examModel.questions.length - 1)
-                                  ? _nextQuestion
-                                  : null,
-                              child: currentQuestionIndex !=
-                                      widget.examModel.questions.length - 1
-                                  ? NextButton(
-                                      objAnswers: objAnswers,
-                                      currentQuestionIndex:
-                                          currentQuestionIndex,
-                                      widget: widget,
-                                    )
-                                  : SizedBox(
-                                      height: 50.h,
-                                      width: 50.w,
-                                    ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
