@@ -51,25 +51,7 @@ class _QuizScreenState extends State<QuizScreen> {
       final file =
           File('/Users/hieuba/Desktop/QUIZ/quiz_app/assets/data/demo.json');
 
-//       var exam1<> = {
-//         questions: file,
-//         title: 'Thi A1',
-//         time: 10000000,
-//         description?: '',
-//         category : 'moto',
-//         id : '1'
-//       };
-// var exam2<> = {
-//         questions: file,
-//         title: 'Thi A1',
-//         time: 10000000,
-//         description?: '',
-//          category : 'oto'
-//       };
 
-//       var exams  = [exam1, exam2, ...];
-
-// var examHonda = exams.
 
       final jsonString = file.readAsStringSync();
 

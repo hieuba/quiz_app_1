@@ -24,7 +24,10 @@ class AppBarCustom extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: onTap,
-              child: Image.asset('assets/icons/$icon'),
+              child: Image.asset(
+                'assets/icons/$icon',
+                color: whiteColor,
+              ),
             ),
             Center(
               child: widget,

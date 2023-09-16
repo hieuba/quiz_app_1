@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 
-import 'package:quiz_app/commons/appbar_custom.dart';
-import 'package:quiz_app/commons/motobike.dart';
-import 'package:quiz_app/commons/question_and_minute.dart';
+import 'package:quiz_app/components/appbar_custom.dart';
+import 'package:quiz_app/components/motobike.dart';
+import 'package:quiz_app/components/question_and_minute.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/exams.dart';
@@ -100,11 +100,12 @@ class _HomePageState extends State<HomePage>
                         height: 32,
                         width: 32,
                         decoration: BoxDecoration(
-                            color: tabbarColor,
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image:
-                                    AssetImage('assets/icons/icon_app.png'))),
+                          color: tabbarColor,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: AssetImage('assets/icons/icon_app.png'),
+                          ),
+                        ),
                       ),
                     ),
                     Text(
@@ -117,8 +118,11 @@ class _HomePageState extends State<HomePage>
                     InkWell(
                       onTap: () {
                         showSearch(
-                            context: context,
-                            delegate: DataSearch(examData: ExamData.exams));
+                          context: context,
+                          delegate: DataSearch(
+                            examData: ExamData.exams,
+                          ),
+                        );
                       },
                       child: Container(
                         margin: EdgeInsets.only(top: 16.h),

@@ -23,14 +23,16 @@ final questionsA1 = [
       correctOptionIndex: 2),
   //3 *
   QuestionModel(
-      questionText:
-          "* Sử dụng rượu bia khi lái xe, nếu bị phát hiện thì bị xử lý như thế nào ?",
-      options: [
-        "Chỉ bị nhắc nhở.",
-        "Bị xử phạt hành chính hoặc có thể bị xử lý hình sự tùy theo mức độ vi phạm.",
-        "Không bị xử lý hình sự.",
-      ],
-      correctOptionIndex: 2),
+    questionText:
+        "* Sử dụng rượu bia khi lái xe, nếu bị phát hiện thì bị xử lý như thế nào ?",
+    options: [
+      "Chỉ bị nhắc nhở.",
+      "Bị xử phạt hành chính hoặc có thể bị xử lý hình sự tùy theo mức độ vi phạm.",
+      "Không bị xử lý hình sự.",
+    ],
+    isSpecial: true,
+    correctOptionIndex: 1,
+  ),
   // 4
   QuestionModel(
       questionText:
@@ -51,6 +53,7 @@ final questionsA1 = [
         "Chỉ được thực hiện trên đường vắng phương tiện cùng tham gia giao thông.",
         "Không được phép.",
       ],
+      isSpecial: true,
       correctOptionIndex: 2),
   // 6 hinh
   QuestionModel(
@@ -250,8 +253,8 @@ final questionsA1 = [
       options: [
         "Cả ba hướng.",
         "Hướng 1 và 2.",
-        "Hướng 1 và 3."
-            "Hướng 2 và 3.",
+        "Hướng 1 và 3.",
+        "Hướng 2 và 3.",
       ],
       imageUrl: 'assets/data/24.jpeg',
       correctOptionIndex: 2),
@@ -263,6 +266,7 @@ final questionsA1 = [
         "Xe con, xe tải, xe khách.",
         "Xe tải, xe khách, xe mô tô.",
         "Xe khách, xe mô tô, xe con.",
+        "Cả 4 xe",
       ],
       imageUrl: 'assets/data/25.jpeg',
       correctOptionIndex: 1),

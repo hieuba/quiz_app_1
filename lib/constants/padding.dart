@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 double kSpacing = 24.0.h;
 
-double kSmallFontSize = 14.0;
+double kSmallFontSize = 16.0;
 
 double kLargeFontSize = 16.0.sp;
 

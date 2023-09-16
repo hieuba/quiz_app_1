@@ -1,7 +1,7 @@
 import 'package:quiz_app/models/question_model.dart';
 
 class ExamModel {
-  final List<QuestionModel> questions;
+  List<QuestionModel> questions;
   final int time;
   final String? description;
   final Category category;
