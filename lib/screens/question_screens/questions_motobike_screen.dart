@@ -1,17 +1,21 @@
-// ignore_for_file: library_private_types_in_public_api
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:quiz_app/commons/show_dialog_custom.dart';
+import 'package:quiz_app/screens/question_screens/components/on_will_pop.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
-import 'package:quiz_app/commons/appbar_custom.dart';
-import 'package:quiz_app/data/a1.dart';
+import 'package:quiz_app/components/show_dialog_custom.dart';
+import 'package:quiz_app/data/de_a1.dart';
+import 'package:quiz_app/screens/question_screens/components/next_button.dart';
+import 'package:quiz_app/screens/question_screens/components/previous_button.dart';
+import 'package:quiz_app/screens/question_screens/components/submit_button.dart';
+import 'package:quiz_app/components/appbar_custom.dart';
 import 'package:quiz_app/models/exam_model.dart';
-import 'package:quiz_app/screens/home_page.dart';
+import 'package:quiz_app/screens/home_page/home_page.dart';
 import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/generate_map.dart';
@@ -23,7 +27,7 @@ class QuestionMotoBikeScreen extends StatefulWidget {
     super.key,
     required this.examModel,
   });
-
+  // khai báo instance examModel
   final ExamModel examModel;
 
   @override
@@ -31,17 +35,24 @@ class QuestionMotoBikeScreen extends StatefulWidget {
 }
 
 class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
+  // vị trí câu hỏi hiên tại
   int currentQuestionIndex = 0;
 
+  // câu hỏi đã chọn đáp án
+  List<bool> selectedQuestions = [];
+
+  // khai báo biến tổng thời gian
   late int _totalTime;
 
+  // counntdown controller
   final CountdownController _countdownController =
       CountdownController(autoStart: true);
 
-  Map<int, dynamic> objAnswers = generateMap(0);
-
   // scrollController Index
   final ScrollController _scrollController = ScrollController();
+
+  // tạo obj câu trả lời
+  Map<int, dynamic> objAnswers = generateMap(0);
 
   // total correct answers
   int calculateCorrectAnswers() {
@@ -99,18 +110,26 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
     });
   }
 
-  List<bool> selectedQuestions = [];
+  // xáo trộn câu hỏi
+  List<QuestionModel> shuffleQuestions(List<QuestionModel> questions) {
+    final random = Random();
+    questions.shuffle(random);
+    return questions;
+  }
 
   @override
   void initState() {
     super.initState();
-// Khởi tạo danh sách selectedQuestions với giá trị false
+
+    List<QuestionModel> shuffledQuestions =
+        shuffleQuestions(widget.examModel.questions);
+    widget.examModel.questions = shuffledQuestions.take(25).toList();
+
+    // Khởi tạo danh sách selectedQuestions với giá trị false
     selectedQuestions = List.filled(
       widget.examModel.questions.length,
       false,
     );
-    // Sáo trộn danh sách câu hỏi
-    widget.examModel.questions.shuffle();
   }
 
   @override
@@ -119,29 +138,18 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
     super.dispose();
   }
 
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-            context: context,
-            builder: (context) => DialogCustom(
-                done: () {
-                  Navigator.of(context).popAndPushNamed('/');
-                },
-                cancle: () {
-                  Navigator.of(context).pop();
-                },
-                title: 'Thông báo',
-                content: 'Bạn có muốn thoát không?'))) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
+    // câu hỏi hiện tại
     QuestionModel currentQuestion =
         widget.examModel.questions[currentQuestionIndex];
     double width = MediaQuery.of(context).size.width;
     final topPadding = MediaQuery.of(context).padding.top;
+    // Kiểm tra nếu đang ở câu hỏi cuối cùng
     return WillPopScope(
-      onWillPop: _onWillPop,
+      onWillPop: () {
+        return onWillPop(context);
+      },
       child: Scaffold(
         // layout
         body: SafeArea(
@@ -228,7 +236,7 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                     totalQuestions:
                                         widget.examModel.questions.length,
                                     correctAnswers: calculateCorrectAnswers(),
-                                    questions: questionsA1,
+                                    questions: deA1,
                                     userAnswers: objAnswers,
                                   );
                                 },
@@ -256,21 +264,6 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                             color: whiteColor,
                             child: Column(
                               children: [
-                                // thanh ngang
-                                /*
-                                Padding(
-                                  padding: EdgeInsets.only(top: 16.h),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: blueColor,
-                                    ),
-                                    height: 4.h,
-                                    width: 48.w,
-                                  ),
-                                ),
-                                */
-                                // index questions
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 30),
@@ -314,12 +307,15 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                                       child: Text(
                                                         '${index + 1}',
                                                         style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color: selectedQuestions[
-                                                                    index]
-                                                                ? Colors.orange
-                                                                : whiteColor),
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              selectedQuestions[
+                                                                      index]
+                                                                  ? Colors
+                                                                      .orange
+                                                                  : whiteColor,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
@@ -391,13 +387,6 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
                                               ? const SizedBox()
                                               : Container(
                                                   height: 150.h,
-
-                                                  // FadeInImage.memoryNetwork(
-                                                  //     placeholder:
-                                                  //         kTransparentImage,
-                                                  //     image: currentQuestion
-                                                  //         .imageUrl
-                                                  //         .toString()),
                                                   decoration: BoxDecoration(
                                                     image: DecorationImage(
                                                         image: AssetImage(
@@ -608,88 +597,6 @@ class _QuestionMotoBikeScreenState extends State<QuestionMotoBikeScreen> {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-// previos button
-class PreviosButton extends StatelessWidget {
-  const PreviosButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50.h,
-      width: 50.w,
-      decoration: BoxDecoration(
-        gradient: indexGradient,
-        shape: BoxShape.circle,
-        color: const Color(0xffd4d4d4),
-      ),
-      child: Icon(Icons.arrow_back_ios_new, color: whiteColor),
-    );
-  }
-}
-
-// submit button
-class SubmitButton extends StatelessWidget {
-  const SubmitButton({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 195.w,
-      height: 50.h,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.blue)),
-      child: Center(
-        child: GradientText(
-            text: 'Chấm điểm',
-            gradient: textGradient,
-            textStyle: TextStyle(
-              fontSize: kLargeFontSize,
-              fontWeight: FontWeight.w500,
-            )),
-      ),
-    );
-  }
-}
-
-// next button
-class NextButton extends StatelessWidget {
-  const NextButton({
-    super.key,
-    required this.objAnswers,
-    required this.currentQuestionIndex,
-    required this.widget,
-  });
-
-  final Map<int, dynamic> objAnswers;
-  final int currentQuestionIndex;
-  final QuestionMotoBikeScreen widget;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50.h,
-      width: 50.w,
-      decoration: BoxDecoration(
-        gradient: objAnswers[currentQuestionIndex] != null &&
-                !(currentQuestionIndex == widget.examModel.questions.length - 1)
-            ? indexGradient
-            : null,
-        shape: BoxShape.circle,
-        color: grayColor,
-      ),
-      child: Icon(
-        Icons.arrow_forward_ios,
-        color: whiteColor,
       ),
     );
   }

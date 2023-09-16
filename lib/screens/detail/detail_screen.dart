@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:quiz_app/commons/appbar_custom.dart';
-import 'package:quiz_app/commons/start_quiz_button.dart';
-import 'package:quiz_app/constants/padding.dart';
 
+import 'package:quiz_app/components/appbar_custom.dart';
+import 'package:quiz_app/components/start_quiz_button.dart';
+import 'package:quiz_app/constants/padding.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/data/generate_map.dart';
 import 'package:quiz_app/models/exam_model.dart';
+import 'package:quiz_app/screens/detail/components/container_info.dart';
+import 'package:quiz_app/screens/detail/components/custom_text.dart';
 import 'package:quiz_app/screens/question_screens/questions_motobike_screen.dart';
-import 'package:quiz_app/screens/result/result_screen.dart';
 
 // ignore: must_be_immutable
 class DetailScreen extends StatelessWidget {
@@ -36,7 +37,6 @@ class DetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // SizedBox(height: 28.h),
               // tabbar
               Padding(
                   padding: EdgeInsets.only(
@@ -57,7 +57,12 @@ class DetailScreen extends StatelessWidget {
                           height: 32,
                           width: 32,
                           decoration: BoxDecoration(
-                              color: tabbarColor, shape: BoxShape.circle),
+                            color: tabbarColor,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage('assets/icons/icon_app.png'),
+                            ),
+                          ),
                         ),
                       ),
                       Padding(
@@ -86,25 +91,11 @@ class DetailScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Center(
-                                child: Padding(
-                                  padding: EdgeInsets.only(top: 12.h),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: blueColor,
-                                    ),
-                                    height: 4.h,
-                                    width: 48.w,
-                                  ),
-                                ),
-                              ),
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(24),
                                   child: SizedBox(
                                     width: double.infinity,
-                                    // color: Colors.amber.shade100,
                                     child: Column(
                                       children: [
                                         Expanded(
@@ -114,7 +105,7 @@ class DetailScreen extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'Giải thích ngắn gọn về bài thi',
+                                                  'Giải thích về bài thi',
                                                   style: TextStyle(
                                                     fontSize: 16.sp,
                                                     fontWeight: FontWeight.w700,
@@ -125,7 +116,7 @@ class DetailScreen extends StatelessWidget {
                                                 InfoContainer(
                                                   icons: 'number_question.png',
                                                   title:
-                                                      '${examModel.total_question} Câu hỏi',
+                                                      '25/${examModel.total_question} Câu hỏi',
                                                   subTitle:
                                                       '1 điểm cho câu trả lời đúng',
                                                 ),
@@ -141,7 +132,7 @@ class DetailScreen extends StatelessWidget {
                                                 ),
                                                 SizedBox(height: 24.h),
                                                 Text(
-                                                  'Please read the text below carefully so you can understand it',
+                                                  'Hãy đọc kỹ nội dung bên dưới để hiểu rõ về bài thi',
                                                   style: TextStyle(
                                                     fontSize: 14.sp,
                                                     fontWeight: FontWeight.w700,
@@ -155,46 +146,53 @@ class DetailScreen extends StatelessWidget {
                                                 ),
                                                 const TextCustom(
                                                   text:
-                                                      'Nhấn vào các tùy chọn để chọn câu trả lời đúng',
+                                                      'Nhấn vào các tùy chọn để chọn câu trả lời đúng nhất',
                                                 ),
                                                 TextCustom(
                                                   text: examModel.title ==
-                                                          'Bằng A1'
+                                                          'Bằng lái A1'
                                                       ? 'Để thi đạt bạn cần đúng 21/25 câu hỏi'
                                                       : 'Để thi đạt bạn cần đúng 23/25 câu hỏi',
                                                 ),
                                                 const TextCustom(
                                                   text:
-                                                      'Nhấp vào chấm điểm nếu bạn chắc chắn muốn hoàn thành tất cả các câu đố',
+                                                      'Nhấp vào chấm điểm nếu bạn chắc chắn muốn hoàn thành bài thi',
+                                                ),
+                                                const TextCustom(
+                                                  text:
+                                                      'Nếu sai câu điểm liệt (dấu *) kết quả sẽ là KHÔNG ĐẠT',
                                                 ),
                                               ],
                                             ),
                                           ),
                                         ),
+                                        // bat dau
                                         StartQuizButton(
                                           onTap: () {
-                                            examModel.title == 'Bằng A1' ||
-                                                    examModel.title ==
-                                                        'Trắc nghiệm toán lớp 1'
+                                            examModel.title == 'Bằng lái A1'
                                                 ? Navigator.pushAndRemoveUntil(
                                                     context,
                                                     PageTransition(
-                                                        child:
-                                                            QuestionMotoBikeScreen(
-                                                                examModel:
-                                                                    examModel),
-                                                        type: PageTransitionType
-                                                            .bottomToTop),
+                                                      child:
+                                                          QuestionMotoBikeScreen(
+                                                              key: UniqueKey(),
+                                                              examModel:
+                                                                  examModel),
+                                                      type: PageTransitionType
+                                                          .bottomToTop,
+                                                    ),
                                                     (route) => false)
                                                 : ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                     SnackBar(
                                                       duration: const Duration(
-                                                          seconds: 1),
+                                                        seconds: 1,
+                                                      ),
                                                       backgroundColor:
                                                           blueColor,
                                                       content: const Text(
-                                                          'Chúng tôi sẽ cập nhật sau!!'),
+                                                        'Chúng tôi sẽ cập nhật sau!!',
+                                                      ),
                                                     ),
                                                   );
                                           },
@@ -216,105 +214,6 @@ class DetailScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class TextCustom extends StatelessWidget {
-  const TextCustom({
-    super.key,
-    required this.text,
-  });
-  final String text;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 16.h),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 6.h,
-            width: 6.w,
-            decoration: BoxDecoration(
-              color: blackColor,
-              shape: BoxShape.circle,
-            ),
-          ),
-          SizedBox(width: 16.h),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-                color: blackColor,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class InfoContainer extends StatelessWidget {
-  const InfoContainer({
-    super.key,
-    required this.title,
-    required this.subTitle,
-    required this.icons,
-  });
-
-  final String title;
-  final String subTitle;
-  final String icons;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Container(
-          height: 40.h,
-          width: 40.w,
-          decoration: BoxDecoration(
-            color: blackColor,
-            shape: BoxShape.circle,
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(8.h),
-            child: Image.asset(
-              'assets/icons/$icons',
-              color: whiteColor,
-            ),
-          ),
-        ),
-        SizedBox(width: 16.w),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                  color: blackColor,
-                ),
-              ),
-              Text(
-                subTitle,
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: tabbarColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

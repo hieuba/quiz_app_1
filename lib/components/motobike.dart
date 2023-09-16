@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:quiz_app/bloc/bloc/exam_bloc.dart';
-import 'package:quiz_app/commons/question_motobike.dart';
+import 'package:quiz_app/components/question_motobike.dart';
 import 'package:quiz_app/constants/theme_data.dart';
 import 'package:quiz_app/screens/detail/detail_screen.dart';
+import 'package:quiz_app/screens/home_page/bloc/exam_bloc.dart';
 
 class MotoBike extends StatefulWidget {
   const MotoBike({
